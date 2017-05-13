@@ -1,0 +1,17 @@
+#!/bin/bash
+
+superuser='root'
+superpass='Ybrbnf02'
+db_name='ask_boyarskikh_db'
+db_user='ask_boyarskikh'
+host='127.0.0.1'
+
+sudo rm -rf /WEB/
+sudo service nginx stop
+sudo rm /etc/nginx/proxy_params
+sudo rm /etc/nginx/sites-available/*
+sudo rm /etc/nginx/sites-enabled/*
+mysql -u $superuser -p$superpass -e "
+    DROP USER '$db_user'@'$host';
+    DROP DATABASE $db_name;
+"

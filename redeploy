@@ -1,0 +1,4 @@
+sudo ./remove
+sudo ./deploy
+cd /WEB/ask_boyarskikh
+sudo cat ../conf/filldb.py | sudo python3 manage.py shell

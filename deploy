@@ -1,0 +1,205 @@
+#!/bin/bash
+
+#---------Значения по умолчанию----------
+
+# Настройки проекта
+root_path='/WEB'
+project_name='ask_boyarskikh'
+main_log_file='log/main.log'
+
+# Настройки django
+allowed_host='127.0.0.1'
+secret_key=')01xqqf#tzq-1yh$uzs8ckt*r7h6061ngn2$hyxxhgnwi2cti'
+admin_name='Nikita-Boyarskikh'
+admin_pass='Ybrbnf02'
+admin_email='N02@yandex.ru'
+
+# Настройки gunicorn
+master='true'
+processes='4'
+socket='wsgi.sock'
+
+# Настройки базы данных
+db_name='ask_boyarskikh_db'
+db_user='ask_boyarskikh'
+db_pass='12345'
+db_host='127.0.0.1'
+db_port='3306'
+
+superuser='root'
+superpass='Ybrbnf02'
+
+# Настройки админа
+name='Nikita-Boyarskikh'
+email='N02@yandex.ru'
+
+#----------Настройки локализации (используем en_US.utf8 по умолчанию)----------
+
+export LANG=
+
+#----------Валидация переданных параметров----------
+
+# Функция вывода подсказки пользователю
+help_page() {
+	echo
+	echo -e "[project]:"
+	echo -e "\t-R $root_path \t-- path to root directory of deploying project"
+	echo -e "\t-M $main_log_file \t-- relation path to main log of your project"
+	echo -e "[gunicorn]:"
+	echo -e "\t-m $master \t-- True/False. True if this gunicorn process will be master-process"
+	echo -e "\t-P $processes \t-- number of starting workers"
+	echo -e "\t-s $socket \t-- path to your main application unix socket"
+	echo -e "[django]:"
+	echo -e "\t-A $allowed_host \t-- allowed host for django"
+	echo -e "\t-S $secret_key \t-- secret key for django"
+	echo -e "[database]:"
+	echo -e "\t-n $db_name \t-- name of database"
+	echo -e "\t-u $db_user \t-- user name of database"
+	echo -e "\t-x $db_pass \t-- password for user of database"
+	echo -e "\t-h $db_host \t-- host of database"
+	echo -e "\t-p $db_port \t-- port of database"
+	echo -e "\t-U $superuser \t-- superuser name of database"
+	echo -e "\t-X $superpass \t-- password for superuser of database"
+	echo -e "[admin]:"
+	echo -e "\t-i $name \t-- your name"
+	echo -e "\t-e $email \t-- your e-mail[0;39m"
+}
+
+echo "[1;39mServer will be create with next settings:"
+help_page
+
+#----------Установка----------
+
+# Запоминаем домашнюю директорию проекта
+home_dir=$(pwd)
+
+# Установка необходимых зависимостей
+echo -e "[1;39m\tInstalling dependenses for system...[0;39m"
+#if xargs apt-get -y install < conf/requirements.txt
+#then echo -e "[1;32m[OK][0;39m"
+#else echo -e "[1;31m[ERROR] can't install :([1;39m"; echo "exit...[0;39m"; exit 1
+#fi
+
+# Копирование и рендеринг шаблона конфигурации nginx
+echo -e "[1;39m\tCreating and copying nginx files...[0;39m"
+cp conf/nginx.conf conf/tmp.conf
+echo "#app='$project_name'#" >> conf/tmp.conf
+echo "#root='$root_path'#" >> conf/tmp.conf
+unlink /etc/nginx/sites-enabled/$project_name
+unlink /etc/nginx/sites-enabled/default
+if cat conf/tmp.conf | perl conf/write_nginx_config.pl > /etc/nginx/sites-available/$project_name &&
+ln -s /etc/nginx/sites-available/$project_name /etc/nginx/sites-enabled/$project_name && rm conf/tmp.conf
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] creating or copying nginx files failed :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
+
+# Добавим необходимые данные для сертификата
+# if cp conf/ssl.ini conf/tmp.ini && echo "$host" >> conf/tmp.ini &&
+# echo "$email" >> conf/tmp.ini && cp -f conf/tmp.ini $root_path/ && rm conf/tmp.ini
+# then echo -e "[1;32m[OK][0;37m"
+# else echo -e "[1;31m[ERROR] can't configurate certificate :([1;39m"; echo "exit...[0;39m"; exit 1
+# fi
+
+# Генерация сертификатов
+# echo "Generating self-signed certificate..."
+# if cat conf/ssl.ini | openssl req -newkey rsa:2048 -sha256 -nodes -keyout ssl/webhook_cert.key \
+# 	-x509 -days 3650 -out ssl/webhook_cert.pem > /dev/null
+# then echo -e "[1;32m[OK][0;37m"
+# else echo -e "[1;31m[ERROR] can't generate certificate :([1;39m"; echo "exit...[0;39m"; exit 1
+# fi
+
+# Создаём необходимые пути и права
+echo -e "[1;39m\tCopying files and creating paths...[0;39m"
+if mkdir -p $root_path &&
+cp $home_dir/conf/proxy_params /etc/nginx/ &&
+cp $home_dir/conf/rc.local /etc/rc.local &&
+mkdir $root_path/$project_name &&
+cp $home_dir/conf/gunicorn.conf.py $root_path/$project_name/ &&
+cp $home_dir/$project_name/manage.py $root_path/$project_name/ &&
+cp $home_dir/$project_name/config.py $root_path/$project_name/ &&
+mkdir $root_path/$project_name/log &&
+mkdir $root_path/$project_name/app &&
+mkdir $root_path/$project_name/$project_name &&
+cp -r $home_dir/$project_name/$project_name/*.py $root_path/$project_name/$project_name/ &&
+cp -r $home_dir/$project_name/app/*.py $root_path/$project_name/app/ &&
+cp -r $home_dir/$project_name/app/uploads $root_path/$project_name/app/ &&
+cp -r $home_dir/$project_name/app/templates $root_path/$project_name/app/ &&
+mkdir $root_path/conf && cd $root_path &&
+cp $home_dir/conf/config.ini $root_path/conf/config.ini &&
+cp $home_dir/conf/filldb.py $root_path/conf/filldb.py &&
+touch $root_path/$project_name/log/nginx_access.log && touch $root_path/$project_name/log/nginx_error.log
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] copying files or creating paths failed :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
+
+# Тестируем конфигурацию и запускаем nginx
+if nginx -t && service nginx start
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] configuration nginx failed :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
+
+# Устанавливаем необходимые зависимости python3
+echo -e "[1;39m\tInstalling dependenses for app...[0;39m"
+#if pip3 install -r $home_dir/conf/pip_requirements.txt
+#then echo -e "[1;32m[OK][0;39m"
+#else echo -e "[1;31m[ERROR] can't install :([1;39m"; echo "exit...[0;39m"; exit 1
+#fi
+
+# Настраиваем базу данных
+echo -e "[1;39m\tSetting up database..."
+echo -e "\tCreating user..."
+echo -e "For superuser[0;39m"
+if mysql -h $db_host -P $db_port -u $superuser -p$superpass -e "
+    CREATE USER '$db_user'@'$db_host' IDENTIFIED BY '$db_pass';
+    CREATE DATABASE $db_name DEFAULT CHARACTER SET 'utf8';
+    GRANT ALL PRIVILEGES ON $db_name.* TO '$db_user'@'$db_host';
+    FLUSH PRIVILEGES;"
+then echo -e "[1;32m[OK][0;39m"
+else
+	echo -e "[1;31mMaybe this user or database already exists?"
+	echo -e "exit...[0;39m"; exit 1;
+fi
+
+if cd $project_name && python3 manage.py makemigrations app
+then
+	if python3 manage.py migrate
+	then
+		if echo -e "from django.contrib.auth.models import User; User.objects.create_superuser('$admin_name', '$admin_email', '$admin_pass')" | python3 manage.py shell
+		then
+			echo -e "[1;32m[OK][0;39m"
+		else
+			echo -e "[1;31m[ERROR] can't create superuser :([1;39m"; echo "exit...[0;39m"; exit 1
+		fi
+	else
+		echo -e "[1;31m[ERROR] can't migrate database :([1;39m"; echo "exit...[0;39m"; exit 1
+	fi
+else
+	echo -e "[1;31m[ERROR] can't makemigrations database :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
+
+#----------Запускаем приложение----------
+
+if python3 manage.py collectstatic --no-input -cl &&
+cp -r $home_dir/$project_name/app/static $root_path/$project_name/app/
+then
+	# Даём права www-data (сервера) на директорию проекта
+	if chown -R www-data $root_path &&
+		gunicorn $project_name.wsgi:application
+	then
+		echo -e "[1;32m[OK] GUNICORN STARTED![0;39m"
+		if service nginx start
+		then
+			echo -e "[1;32m[OK] NGINX STARTED![0;39m"
+		else
+			echo -e "[1;31m[ERROR] can't start nginx :([1;39m"; echo "exit...[0;39m"; exit 1
+		fi
+	else
+		echo -e "[1;31m[ERROR] can't start gunicorn :([1;39m"; echo "exit...[0;39m"; exit 1
+	fi
+else
+	echo -e "[1;31m[ERROR] can't collect static :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
+
+echo -e "[1;32m[OK] DEPLOY SUCCESSFULL![0;39m"
+
+exit 0
