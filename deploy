@@ -124,9 +124,9 @@ cp -r $home_dir/$project_name/$project_name/*.py $root_path/$project_name/$proje
 cp -r $home_dir/$project_name/app/*.py $root_path/$project_name/app/ &&
 cp -r $home_dir/$project_name/app/uploads $root_path/$project_name/app/ &&
 cp -r $home_dir/$project_name/app/templates $root_path/$project_name/app/ &&
+cp -r $home_dir/$project_name/app/management $root_path/$project_name/app/ &&
 mkdir $root_path/conf && cd $root_path &&
 cp $home_dir/conf/config.ini $root_path/conf/config.ini &&
-cp $home_dir/conf/filldb.py $root_path/conf/filldb.py &&
 touch $root_path/$project_name/log/nginx_access.log && touch $root_path/$project_name/log/nginx_error.log
 then echo -e "[1;32m[OK][0;39m"
 else echo -e "[1;31m[ERROR] copying files or creating paths failed :([1;39m"; echo "exit...[0;39m"; exit 1
