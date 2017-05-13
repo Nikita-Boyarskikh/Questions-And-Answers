@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+service mysql start
+service nginx start
+python3 $root_dir/$app/manage.py migrate
+echo yes | python3 $root_dir/$app/manage.py collectstatic
+cd $root_dir
+gunicorn $app.wsgi:application
