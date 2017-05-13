@@ -75,10 +75,10 @@ home_dir=$(pwd)
 
 # Установка необходимых зависимостей
 echo -e "[1;39m\tInstalling dependenses for system...[0;39m"
-#if xargs apt-get -y install < conf/requirements.txt
-#then echo -e "[1;32m[OK][0;39m"
-#else echo -e "[1;31m[ERROR] can't install :([1;39m"; echo "exit...[0;39m"; exit 1
-#fi
+if xargs apt-get -y install < conf/requirements.txt
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] can't install :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
 
 # Копирование и рендеринг шаблона конфигурации nginx
 echo -e "[1;39m\tCreating and copying nginx files...[0;39m"
@@ -140,10 +140,10 @@ fi
 
 # Устанавливаем необходимые зависимости python3
 echo -e "[1;39m\tInstalling dependenses for app...[0;39m"
-#if pip3 install -r $home_dir/conf/pip_requirements.txt
-#then echo -e "[1;32m[OK][0;39m"
-#else echo -e "[1;31m[ERROR] can't install :([1;39m"; echo "exit...[0;39m"; exit 1
-#fi
+if pip3 install -r $home_dir/conf/pip_requirements.txt
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] can't install :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
 
 # Настраиваем базу данных
 echo -e "[1;39m\tSetting up database..."
