@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+{% block content %}
+<form data-toggle="validator" role="form" enctype="multipart/form-data" method="post" target="/user/0">
+	<div class="form-group has-feedback">
+		<label for="inputLogin" class="control-label">Login</label>
+		<div class="input-group">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+			<input type="text" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputLogin" placeholder="Enter your login here" required>
+		</div> 
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+		<span class="help-block with-errors">Enter your login</span>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputEmail" class="control-label">Your e-mail</label>
+		<div class="input-group">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+			<input type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Wrong e-mail" required>
+		</div> 
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+		<span class="help-block with-errors">Enter your e-mail</span>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputNick" class="control-label">Nick</label>
+		<div class="input-group">
+			<span class="input-group-addon">@</span>
+			<input type="text" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputNick" placeholder="Enter your nick here" required>
+		</div> 
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+		<span class="help-block with-errors">Enter your nick</span>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputPassword" class="control-label">Enter password</label>
+		<div class="form-inline row">
+			<div class="form-group col-sm-6">
+				<input type="password" data-toggle="validator" data-minlength="6" class="form-control" id="inputPassword" placeholder="******" required>
+				<span class="help-block">Mininum 6 charachters</span>
+			</div>
+			<div class="form-group col-sm-6">
+				<input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Error! Passwords is not match!" placeholder="Повторите пароль" required>
+				<div class="help-block with-errors"></div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputImage" class="control-label">Your avatar</label>
+		<div class="input-group">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-picture"></span></span>
+			<input type="file" id="inputImage" class="form-control" name="photo" multiple accept="image/*,image/jpeg" data-error="Wrong e-mail" required>
+		</div> 
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+		<span class="help-block with-errors">Load your avatar</span>
+	</div>
+	<div class="form-group">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" id="terms" data-error="prove that your not a robot" required>
+				before you enter
+			</label>
+			<div class="help-block with-errors"></div>
+		</div>
+	</div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+{% endblock %}

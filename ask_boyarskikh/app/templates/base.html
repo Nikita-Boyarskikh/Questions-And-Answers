@@ -1,0 +1,171 @@
+{% spaceless %}
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="icon" href="/favicon.png">
+		<title>AskIt! - {{ title }}</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-default bordered">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+										  data-target="#navbar-collapse" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="/">
+						<img alt="Logo" style="height:50px; border-radius: 15px" src="/img/logo.jpg">
+					</a>
+				</div><!-- /.navbar-header -->
+				
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse text-center" id="navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a class="ask" href="{% url 'ask' %}">
+								<button class="btn btn-sm btn-success navbar-right" type="submit">
+									<strong>ASK!</strong>
+								</button>
+							</a>
+						</li>
+						<li role="separator" class="divider before_ask_and_userblock"></li>
+						{% if user %}
+							<li class="member dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+															aria-haspopup="true" aria-expanded="false">
+									<img src="/uploads/{{ user.avatar.url }}" class="img-circle"
+									    						alt="{{ user.get_full_name }}">
+									{{ user.get_full_name }}
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a class="text-center" href="{% url 'user' user.username %}">
+											<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
+										</a>
+									</li>
+									<li>
+										<a class="text-center" href="{% url 'settings' %}">
+											<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings
+										</a>
+									</li>
+									<li role="separator" class="divider"></li>
+									<li>
+										<a class="text-center" href="{% url 'logout' %}">
+											<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout
+										</a>
+									</li>
+								</ul>
+							</li>
+						{% else %}
+							<li class="member">
+								<a href="{% url 'login' %}">Login</a>
+							</li>
+						{% endif %}
+					</ul>
+					<form class="navbar-form" method="GET" enctype="multipart/form-data"
+															action="{% url 'search' %}">
+						<div class="input-group">
+							<input type="text" class="form-control  search" placeholder="Search for...">
+							<span class="input-group-btn">
+								<button type="submit" class="btn btn-primary" type="button">
+									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+								</button>
+							</span>
+						</div><!-- /input-group -->
+					</form>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container -->
+		</nav>
+		{% if error %}
+			<div class="row">
+				<div class="col-xs-11 col-sm-7 col-md-7 col-lg-7 alert alert-danger">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<strong>{{ error }}</strong>
+				</div>
+			</div>
+		{% endif %}
+		<div class="container content">
+			<div class="row">
+				<div class="col-xs-11 col-sm-11 col-md-7 col-lg-7 block bordered">
+					{% block content %}
+                    {% endblock %}
+				</div>
+			</div>
+		</div>
+		<div style="height: 30px"></div>
+		<footer class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-8 col-sm-8 col-md-4 col-lg-4 col-xs-offset-2 col-sm-offset-2 col-md-offset-4 col-lg-offset-4 min-block bordered">
+						<p class="text-muted text-center">
+							© Boyarskikh Nikita, 2017<br>
+							Phone: 8 (916) 385-7622<br>
+							E-Mail: <a href="mailto:N02@yandex">N02@yandex.ru</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<div class="hidden-xs hidden-sm block bordered right-block">
+			<div class="popular-tags">
+				<h2>Popular tags:</h2>
+					{% for t in tags %}
+						<a href="{% url 'tag' t.id %}">
+							<span style="font-size:{{ t.size|safe }}em;
+							             margin:0.5em;
+							             color: rgb(
+							             	           {{ t.color.r|safe }},
+							             	           {{ t.color.g|safe }},
+							             	           {{ t.color.b|safe }}
+							                       );">
+								{{ t.title }}
+							</span>
+						</a>
+					{% empty %}
+						<span style="margin: 0.5em">There are no tags yet...</span>
+					{% endfor %}
+			</div>
+			<hr>
+			<div class="best-members">
+				<h2>Best answerers:</h2>
+				<ul>
+					{% for u in bestusers %}
+						<a href="{% url 'user' u.username %}">
+							<li class="member">
+								<img src="{{ u.avatar.url }}" class="img-circle"
+													alt="{{ u.get_full_name }}"> {{ u.get_full_name }}
+							</li>
+						</a>
+					{% empty %}
+						<li class="member">
+							There are no users yet...
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		<!-- Кнопка наверх -->
+		<p id="back-top" class="hidden-xs hidden-sm">
+			<a href="#top"><span class="inner"><span class="glyphicon glyphicon-triangle-up" style="margin-top: 25%"></span></span>Back to Top</a>
+		</p>
+		<!-- /Кнопка наверх -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/validator.min.js"></script>
+		<script src="/js/script.js"></script>
+	</body>
+</html>
+{% endspaceless %}

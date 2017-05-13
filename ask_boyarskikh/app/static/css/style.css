@@ -1,0 +1,204 @@
+html {
+	min-height:100%;
+	position:relative;
+}
+
+body {
+	padding: 20px;
+	background: url(../img/background.png) repeat;
+    background-attachment:fixed;
+	min-height:100%;
+	position:relative;
+}
+
+textarea {
+	height: 500px;
+	resize: vertical;
+}
+
+.bordered {
+	background: #f8f8f8;
+	border-radius: 15px;
+    -webkit-border-bottom-left-radius: 15px;
+    -moz-border-radius: 15px;
+	border: solid rgb(95, 62, 5) 5px;
+}
+
+.block {
+	padding: 3%;
+}
+.block h2 {
+    padding: 0 !important;
+}
+
+.min-block {
+	padding: 0;
+}
+
+.content {
+	margin-top: 50px;
+}
+
+.member {
+	font-size: 2em;
+    list-style: none;
+}
+
+.nav .member {
+	margin-top: 2.5px;
+}
+.member img {
+	width: 40px;
+	height: 40px;
+}
+
+.dropdown-toggle {
+	padding: 0 !important;
+}
+.ask {
+	padding-top: 7.5px !important;
+	margin-right: 30px;
+}
+.ask button {
+	width: 150px;
+	height: 35px;
+}
+
+.before_ask_and_userblock {
+	height: 1px;
+	margin: 9px 0;
+	background-color: #e5e5e5;
+}
+
+.signin {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-radius: 0, inherit, inherit, 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius: inherit, 0, 0, inherit;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 0;
+}
+
+.error {
+	color: #a94442 !important;
+	border-color: #a94442 !important;
+	background-color: #f2dede !important;
+}
+
+.success {
+	color: #3c763d !important;
+    background-color: #dff0d8 !important;
+    border-color: #3c763d !important;
+}
+
+.question-block .panel-body h3 {
+	margin: 0;
+}
+.question-block .panel-body .question-content {
+	margin-bottom: 10px;
+}
+
+.size {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.right-block {
+    position: fixed;
+    top: 130px;
+    right: 20px;
+    width: 33.33333333%;
+}
+
+#back-top {
+    position: fixed;
+    bottom: 2%;
+    right: 16.666666666%;
+    width: 5%;
+}
+
+#back-top a {
+    display: block;
+    text-align: center;
+    font: 11px/100% Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #bbb;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    transition: 1s;
+}
+
+#back-top a:hover {
+    color: #000;
+}
+
+#back-top span.inner {
+    display: block;
+    font-size: 50px;
+    background: #ddd;
+	padding: 2%;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    transition: 1s;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 5%;
+    overflow: hidden; /* clearfix */
+}
+
+#back-top span.inner:before {
+    content: "";
+    padding-top: 100%;
+    float: left;
+}
+
+#back-top a:hover span {
+    background-color: #777;
+}
