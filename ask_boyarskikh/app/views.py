@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 from app.utils import base_context, paginated_context
 from app.models import Question, Answer, Profile, Tag, User
@@ -49,19 +50,19 @@ def login(request):
     else:
         return render_to_response('login.html', context)
 
-@require_login
+@login_required
 def settings(request):
     context = base_context(request)
     context['title'] = "User's settings"
     return render_to_response('settings.html', context)
 
-@require_login
+@login_required
 def ask(request):
     context = base_context(request)
     context['title'] = 'New question'
     return render_to_response('ask.html', context)
 
-@require_login
+@login_required
 def new_answer(request):
     try:
         qid = int(request.GET.get('question'));
