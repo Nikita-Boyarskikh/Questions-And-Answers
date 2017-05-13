@@ -6,9 +6,10 @@ html {
 body {
 	padding: 20px;
 	background: url(../img/background.png) repeat;
-    background-attachment:fixed;
+	background-attachment:fixed;
 	min-height:100%;
 	position:relative;
+	overflow-x: hidden;
 }
 
 textarea {
@@ -19,8 +20,8 @@ textarea {
 .bordered {
 	background: #f8f8f8;
 	border-radius: 15px;
-    -webkit-border-bottom-left-radius: 15px;
-    -moz-border-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-moz-border-radius: 15px;
 	border: solid rgb(95, 62, 5) 5px;
 }
 
@@ -28,7 +29,7 @@ textarea {
 	padding: 3%;
 }
 .block h2 {
-    padding: 0 !important;
+	padding: 0 !important;
 }
 
 .min-block {
@@ -41,7 +42,7 @@ textarea {
 
 .member {
 	font-size: 2em;
-    list-style: none;
+	list-style: none;
 }
 
 .nav .member {
@@ -71,47 +72,47 @@ textarea {
 }
 
 .signin {
-    padding-top: 40px;
-    padding-bottom: 40px;
+	padding-top: 40px;
+	padding-bottom: 40px;
 }
 
 .form-signin {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 .form-signin .checkbox {
-    font-weight: normal;
+	font-weight: normal;
 }
 .form-signin .form-control {
-    position: relative;
-    height: auto;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    padding: 10px;
-    font-size: 16px;
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
 }
 
 .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    -webkit-border-bottom-right-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
-    -moz-border-radius: 0, inherit, inherit, 0;
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+	-moz-border-radius: 0, inherit, inherit, 0;
 }
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    -webkit-border-top-right-radius: 0;
-    -webkit-border-top-left-radius: 0;
-    -moz-border-radius: inherit, 0, 0, inherit;
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-top-left-radius: 0;
+	-moz-border-radius: inherit, 0, 0, inherit;
 }
 
 .footer {
@@ -129,8 +130,8 @@ textarea {
 
 .success {
 	color: #3c763d !important;
-    background-color: #dff0d8 !important;
-    border-color: #3c763d !important;
+	background-color: #dff0d8 !important;
+	border-color: #3c763d !important;
 }
 
 .question-block .panel-body h3 {
@@ -141,64 +142,64 @@ textarea {
 }
 
 .size {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .right-block {
-    position: fixed;
-    top: 130px;
-    right: 20px;
-    width: 33.33333333%;
+	position: fixed;
+	top: 130px;
+	right: 20px;
+	width: 33.33333333%;
 }
 
 #back-top {
-    position: fixed;
-    bottom: 2%;
-    right: 16.666666666%;
-    width: 5%;
+	position: fixed;
+	bottom: 2%;
+	right: 16.666666666%;
+	width: 5%;
 }
 
 #back-top a {
-    display: block;
-    text-align: center;
-    font: 11px/100% Arial, Helvetica, sans-serif;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: #bbb;
-    -webkit-transition: 1s;
-    -moz-transition: 1s;
-    transition: 1s;
+	display: block;
+	text-align: center;
+	font: 11px/100% Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #bbb;
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
 }
 
 #back-top a:hover {
-    color: #000;
+	color: #000;
 }
 
 #back-top span.inner {
-    display: block;
-    font-size: 50px;
-    background: #ddd;
+	display: block;
+	font-size: 50px;
+	background: #ddd;
 	padding: 2%;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    -webkit-transition: 1s;
-    -moz-transition: 1s;
-    transition: 1s;
-    width: 100%;
-    margin: auto;
-    margin-bottom: 5%;
-    overflow: hidden; /* clearfix */
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+	width: 100%;
+	margin: auto;
+	margin-bottom: 5%;
+	overflow: hidden; /* clearfix */
 }
 
 #back-top span.inner:before {
-    content: "";
-    padding-top: 100%;
-    float: left;
+	content: "";
+	padding-top: 100%;
+	float: left;
 }
 
 #back-top a:hover span {
-    background-color: #777;
+	background-color: #777;
 }
