@@ -1,74 +1,38 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
-<h1>Question 1</h1>
-<div class="panel panel-info question-block">
-	<div class="panel-heading text-center">
-		<h3 class="panel-title">
-			<strong><a href="/question/1">My Question 1</a></strong>
-		</h3>
-	</div>
-	<div class="panel-body">
-		<div class="row question-content">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
-				<a href="/user/3">
-					<img src="/uploads/img/user3.jpg" class="img-circle center-block" width="100%" alt="User3">
-					<div class="clearfix"></div><br>
-					<h3 class="text-center">User3</h3>
-				</a>
-			</div>
-			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10">
-				<blockquote>
-					<p class="size">Full description of question?</p>
-				</blockquote>
-			</div>
+	<h1>{{ title }}</h1>
+	{% include 'one_question.html' with note=question %}
+	<h1>{% trans 'Answers:' %}</h1>
+	{% for a in answers %}
+		{% include 'one_answer.html' with note=a %}
+	{% empty %}
+		<h3>{% trans 'There are no answers yet...' %}</h3>
+		<p>{% trans 'You can be first!' %}</p>
+	{% endfor %}
+	<hr>
+	<h1>{% trans 'Write your answer:' %}</h1>
+	<form data-toggle="validator" role="form" enctype="multipart/form-data" method="POST" action="{% url 'question' question.id %}">
+		{% csrf_token %}
+		<div class="form-group has-feedback">
+			<label for="inputText" class="control-label">{% trans 'Text' %}</label>
+			<div class="form-group">
+				<textarea class="form-control" id="inputText" required></textarea>
+			</div> 
+			<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+			<span class="help-block with-errors">{% trans 'Enter text of your answer' %}</span>
 		</div>
-		<div class="row">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2" style="z-index: 1000">
-				<div class="form-group-lg has-success text-center">
-					<div class="input-group">
-						<span class="input-group-addon">
-							<a href="#"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-						</span>
-						<p class="form-control" style="color: #3c763d">+3</p>
-						<span class="input-group-addon error">
-							<a href="#"><span class="glyphicon glyphicon-thumbs-down"></span></a>
-						</span>
-					</div>
-				</div>
-			</div><!-- TODO: Button ОТВЕТИТЬ -->
-			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10" height="100%">
-				<p class="text-right"><a class="label label-primary" href="/question/1">answers</a> <span class="badge">0</span></p>
-				<p class="text-right">
-					<a class="label label-default" href="/tag/5">tag5</a>
-					<a class="label label-default" href="/tag/2">tag2</a>
-				</p>
-			</div>
-		</div>
-	</div>
-</div>
-<h1>Answers:</h1>
-<hr>
-<h1>Write your answer:</h1>
-<form data-toggle="validator" role="form" enctype="multipart/form-data" method="post">
-	<div class="form-group has-feedback">
-		<label for="inputText" class="control-label">Text</label>
 		<div class="form-group">
-			<textarea class="form-control" id="inputText" required></textarea>
-		</div> 
-		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-		<span class="help-block with-errors">Enter text of your answer</span>
-	</div>
-	<div class="form-group">
-		<div class="checkbox">
-			<label>
-				<input type="checkbox" id="terms" data-error="prove that your not a robot" required>
-				before you enter
-			</label>
-			<div class="help-block with-errors"></div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" id="terms" data-error="{% trans 'prove that your not a robot' %}" required>
+					{% trans 'before you enter' %}
+				</label>
+				<div class="help-block with-errors"></div>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<button type="submit" class="btn btn-primary">Answer</button>
-	</div>
-</form>
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary">{% trans 'Answer' %}</button>
+		</div>
+	</form>
 {% endblock %}

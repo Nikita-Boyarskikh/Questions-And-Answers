@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+{{ form.non_field_errors }}
+<form data-toggle="validator" role="form" method="POST" action="{% url 'login' %}">
+	{% csrf_token %}
+	<div class="form-group has-feedback">
+		<label for="{{ form.username.id_for_label }}" class="control-label">{{ form.username.label }}</label>
+		<div class="input-group">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+			<input type="text" name="username" pattern="^[_A-z0-9]{1,}$" maxlength="255" class="form-control"
+				value="{{ form.username.value }}" data-error="{% trans 'Please enter correct nickname' %}"
+				id="{{ form.username.id_for_label }}" placeholder="{% trans 'Enter your nick here' %}" required>
+		</div>
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+		<span class="help-block with-errors">{% trans 'Enter nick' %}</span>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="{{ form.password.id_for_label }}" class="control-label">{{ form.password.label }}</label>
+		<div class="input-group">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+			<input type="password" name="password" data-toggle="validator" data-minlength="6" class="form-control" id="{{ form.password.label }}"
+				data-error="{% trans 'Please enter your password' %}" placeholder="******" required>
+		</div> 
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+		<span class="help-block with-errors">{% trans 'Mininum 6 charachters' %}</span>
+	</div>
+	<div class="form-group">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" id="terms" data-error="{% trans 'prove that your not a robot' %}" required>
+				{% trans 'before you enter' %}
+			</label>
+		</div>
+	</div>
+	<p>
+		<a href="{% url 'registration' %}">{% trans 'Not registered yet?' %}</a>
+	</p>
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">{% trans 'Enter' %}</button>
+	</div>
+</form>
+{% endblock content %}

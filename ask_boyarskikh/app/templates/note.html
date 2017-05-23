@@ -1,0 +1,47 @@
+{% load i18n %}
+<div class="panel panel-info question-block">
+	{% block title %}
+	{% endblock title %}
+	<div class="panel-body">
+		<div class="row question-content">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
+				<a href="{% url 'user' note.author.user.username %}">
+					<img src="{{ note.author.avatar.url }}" class="img-circle center-block" width="100%"
+							alt="{{ note.author.user.username }}">
+					<div class="clearfix"></div><br>
+					<h3 class="text-center">{{ note.author.user.get_full_name }}</h3>
+				</a>
+			</div>
+			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10">
+				<blockquote>
+					<p class="size">{{ note.text }}</p>
+				</blockquote>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
+				<div class="form-group-lg
+				  		{% if note.raiting > 0 %} has-success
+				  		{% elif note.raiting < 0 %} has-error
+				  		{% endif %} text-center">
+					<div class="input-group">
+						<span class="input-group-addon success">
+							<span class="glyphicon glyphicon-thumbs-up success" id="like"></span>
+						</span>
+						<p class="form-control" style="color: 
+							{% if note.raiting > 0 %} #3c763d
+							{% elif note.raiting < 0 %} #a94442
+						{% endif %}">
+							{{ note.raiting }}
+						</p>
+						<span class="input-group-addon error">
+							<span class="glyphicon glyphicon-thumbs-down error" id="dislike"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			{% block meta %}
+			{% endblock meta %}
+		</div>
+	</div>
+</div>

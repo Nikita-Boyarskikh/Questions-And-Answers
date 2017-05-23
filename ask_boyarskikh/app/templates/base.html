@@ -1,3 +1,5 @@
+{% load staticfiles %}
+{% load i18n %}
 {% spaceless %}
 <!DOCTYPE HTML>
 <html lang="en">
@@ -5,10 +7,10 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="icon" href="/favicon.png">
-		<title>AskIt! - {{ title }}</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<link rel="icon" href="{% static 'img/favicon.png' %}">
+		<title>{% blocktrans %}AskIt! - {{ title }}{% endblocktrans %}</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-default bordered">
@@ -22,26 +24,26 @@
 						<span class="icon-bar"></span>
 					</button>
 					<a href="/">
-						<img alt="Logo" style="height:50px; border-radius: 15px" src="/img/logo.jpg">
+						<img alt="Logo" style="height:50px; border-radius: 15px" src="{% static 'img/logo.jpg' %}">
 					</a>
 				</div><!-- /.navbar-header -->
 				
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse text-center" id="navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
+						{% if user.is_authenticated %}
 						<li>
 							<a class="ask" href="{% url 'ask' %}">
 								<button class="btn btn-sm btn-success navbar-right" type="submit">
-									<strong>ASK!</strong>
+									<strong>{% trans 'ASK!' %}</strong>
 								</button>
 							</a>
 						</li>
 						<li role="separator" class="divider before_ask_and_userblock"></li>
-						{% if user %}
 							<li class="member dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
 															aria-haspopup="true" aria-expanded="false">
-									<img src="/uploads/{{ user.avatar.url }}" class="img-circle"
+									<img src="{{ user.avatar.url }}" class="img-circle"
 									    						alt="{{ user.get_full_name }}">
 									{{ user.get_full_name }}
 									<span class="caret"></span>
@@ -49,32 +51,31 @@
 								<ul class="dropdown-menu">
 									<li>
 										<a class="text-center" href="{% url 'user' user.username %}">
-											<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
+											<span class="glyphicon glyphicon-user" aria-hidden="true"></span>{% trans 'Profile' %}
 										</a>
 									</li>
 									<li>
 										<a class="text-center" href="{% url 'settings' %}">
-											<span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings
+											<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>{% trans 'Settings' %}
 										</a>
 									</li>
 									<li role="separator" class="divider"></li>
 									<li>
 										<a class="text-center" href="{% url 'logout' %}">
-											<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout
+											<span class="glyphicon glyphicon-off" aria-hidden="true"></span>{% trans 'Logout' %}
 										</a>
 									</li>
 								</ul>
 							</li>
 						{% else %}
 							<li class="member">
-								<a href="{% url 'login' %}">Login</a>
+								<a href="{% url 'login' %}">{% trans 'Login' %}</a>
 							</li>
 						{% endif %}
 					</ul>
-					<form class="navbar-form" method="GET" enctype="multipart/form-data"
-															action="{% url 'search' %}">
+					<form class="navbar-form" method="GET" enctype="multipart/form-data" action="{% url 'search' %}">
 						<div class="input-group">
-							<input type="text" class="form-control  search" placeholder="Search for...">
+							<input type="text" class="form-control  search" placeholder="{% trans 'Search for...' %}">
 							<span class="input-group-btn">
 								<button type="submit" class="btn btn-primary" type="button">
 									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -85,19 +86,19 @@
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container -->
 		</nav>
-		{% if error %}
+		{% for e in errors %}
 			<div class="row">
 				<div class="col-xs-11 col-sm-7 col-md-7 col-lg-7 alert alert-danger">
 					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-					<strong>{{ error }}</strong>
+					<strong>{{ e }}</strong>
 				</div>
 			</div>
-		{% endif %}
+		{% endfor %}
 		<div class="container content">
 			<div class="row">
 				<div class="col-xs-11 col-sm-11 col-md-7 col-lg-7 block bordered">
 					{% block content %}
-                    {% endblock %}
+		    			{% endblock content %}
 				</div>
 			</div>
 		</div>
@@ -107,9 +108,9 @@
 				<div class="row">
 					<div class="col-xs-8 col-sm-8 col-md-4 col-lg-4 col-xs-offset-2 col-sm-offset-2 col-md-offset-4 col-lg-offset-4 min-block bordered">
 						<p class="text-muted text-center">
-							© Boyarskikh Nikita, 2017<br>
+							{% blocktrans trimmed %}© Boyarskikh Nikita, 2017<br>
 							Phone: 8 (916) 385-7622<br>
-							E-Mail: <a href="mailto:N02@yandex">N02@yandex.ru</a>
+							E-Mail: {% endblocktrans %}<a href="mailto:N02@yandex">N02@yandex.ru</a>
 						</p>
 					</div>
 				</div>
@@ -117,26 +118,26 @@
 		</footer>
 		<div class="hidden-xs hidden-sm block bordered right-block">
 			<div class="popular-tags">
-				<h2>Popular tags:</h2>
+				<h2>{% trans 'Popular tags:' %}</h2>
 					{% for t in tags %}
-						<a href="{% url 'tag' t.id %}">
+						<a style="text-decoration: none" href="{% url 'tag' t.id %}">
 							<span style="font-size:{{ t.size|safe }}em;
-							             margin:0.5em;
-							             color: rgb(
-							             	           {{ t.color.r|safe }},
-							             	           {{ t.color.g|safe }},
-							             	           {{ t.color.b|safe }}
-							                       );">
+								     margin:0.5em;
+								     color: rgb(
+								     		   {{ t.color.r|safe }},
+								     		   {{ t.color.g|safe }},
+								     		   {{ t.color.b|safe }}
+										);">
 								{{ t.title }}
 							</span>
 						</a>
 					{% empty %}
-						<span style="margin: 0.5em">There are no tags yet...</span>
+						<span style="margin: 0.5em">{% trans 'There are no tags yet...' %}</span>
 					{% endfor %}
 			</div>
 			<hr>
 			<div class="best-members">
-				<h2>Best answerers:</h2>
+				<h2>{% trans 'Best answerers:' %}</h2>
 				<ul>
 					{% for u in bestusers %}
 						<a href="{% url 'user' u.username %}">
@@ -146,26 +147,32 @@
 							</li>
 						</a>
 					{% empty %}
-						<li class="member">
-							There are no users yet...
-						</li>
+						<span style="margin: 0.5em">
+							{% trans 'There are no users yet...' %}
+						</span>
 					{% endfor %}
 				</ul>
 			</div>
 		</div>
 		<!-- Кнопка наверх -->
 		<p id="back-top" class="hidden-xs hidden-sm">
-			<a href="#top"><span class="inner"><span class="glyphicon glyphicon-triangle-up" style="margin-top: 25%"></span></span>Back to Top</a>
+			<a href="#top"><span class="inner"><span class="glyphicon glyphicon-triangle-up" style="margin-top: 25%"></span></span>{% trans 'Back to Top' %}</a>
 		</p>
 		<!-- /Кнопка наверх -->
-		<script src="/js/jquery.min.js"></script>
+		{% comment %}
+			Для использования *gettext* в JS
+			<script src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+			<script src="{% static 'js/websocketbridge.js' %}" type="text/javascript"></script>
+		{% endcomment %}
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/notify.min.js' %}"></script>
 		<!--[if lt IE 9]>
 			<script src="/js/html5shiv.min.js"></script>
 			<script src="/js/respond.min.js"></script>
 		<![endif]-->
-		<script src="/js/bootstrap.min.js"></script>
-		<script src="/js/validator.min.js"></script>
-		<script src="/js/script.js"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/validator.min.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
 	</body>
 </html>
 {% endspaceless %}

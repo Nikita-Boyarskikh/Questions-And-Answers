@@ -1,79 +1,25 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
-<div class="container">
-	<div class="row">
-		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-			<h2>{{ title }}</h2>
-		</div>
-		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
-			<h1><small class="small"><a href="{% url alternative_url %}">
-				{{ alternative_title }}
-			</a></small></h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				<h2>{{ title }}</h2>
+			</div>
+			{% if alternative_url and alternative_title %}
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-5">
+					<h1><small class="small"><a href="{% url alternative_url %}">
+						{{ alternative_title }}
+					</a></small></h1>
+				</div>
+			{% endif %}
 		</div>
 	</div>
-</div>
-{% for q in objects %}
-	<div class="panel panel-info question-block">
-		<div class="panel-heading text-center">
-			<h3 class="panel-title">
-				<strong><a href="{% url 'question' q.id %}">{{ q.title }}</a></strong>
-			</h3>
-		</div>
-		<div class="panel-body">
-			<div class="row question-content">
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
-					<a href="{% url 'user' q.author.user.username %}">
-						<img src="{{ q.author.avatar.url }}" class="img-circle center-block" width="100%"
-								alt="{{ q.author.user.username }}">
-						<div class="clearfix"></div><br>
-						<h3 class="text-center">{{ q.author.user.get_full_name }}</h3>
-					</a>
-				</div>
-				<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10">
-					<blockquote>
-						<p class="size">{{ q.text }}</p>
-					</blockquote>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
-					<div class="form-group-lg
-					  		{% if q.raiting > 0 %} has-success
-					  		{% elif q.raiting < 0 %} has-error
-					  		{% endif %} text-center">
-						<div class="input-group">
-							<span class="input-group-addon success">
-								<span class="glyphicon glyphicon-thumbs-up success" id="like"></span>
-							</span>
-							<p class="form-control" style="color: 
-								{% if q.raiting > 0 %} #3c763d
-								{% elif q.raiting < 0 %} #a94442
-							{% endif %}">
-								{{ q.raiting }}
-							</p>
-							<span class="input-group-addon error">
-								<span class="glyphicon glyphicon-thumbs-down error" id="dislike"></span>
-							</span>
-						</div>
-					</div>
-				</div><!-- TODO: Button ОТВЕТИТЬ -->
-				<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10" height="100%">
-					<p class="text-right">
-						<a class="label label-primary" href="{% url 'question' q.id %}">
-							answers
-						</a>
-						<span class="badge">{{ q.answers_count }}</span></p>
-					<p class="text-right">
-					{% for t in q.tags.all %}
-						<a class="label label-default" href="{% url 'tag' t.id %}">{{ t.title }}</a>
-					{% endfor %}
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-{% empty %}
-	<p>There are no questions yet...</p>
-{% endfor %}
-{% include 'paginator.html' %}
-{% endblock %}
+	{% trans 'There are no questions yet...' as no_answers %}
+	{% for q in objects %}
+		{% include 'one_question.html' with note=q %}
+	{% empty %}
+		<p>{{ no_answers }}</p>
+	{% endfor %}
+	{% include 'paginator.html' %}
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends 'note.html' %}
+{% load i18n %}
+{% block title %}
+	<div class="panel-heading text-center">
+		<h3 class="panel-title">
+			<strong><a href="{% url 'question' note.id %}">{{ note.title }}</a></strong>
+		</h3>
+	</div>
+{% endblock title %}
+{% block meta %}
+	<!-- TODO: Button ОТВЕТИТЬ -->
+	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10" height="100%">
+		<p class="text-right">
+			<a class="label label-primary" href="{% url 'question' note.id %}">
+				{% trans 'Answers' %}
+			</a>&nbsp;
+			<span class="badge">{{ note.answers_count|default:0 }}</span>
+		</p>
+		<p class="text-right">
+			{% for t in note.tags.all %}
+				&nbsp;<a class="label label-default" href="{% url 'tag' t.id %}">{{ t.title }}</a>
+			{% endfor %}
+		</p>
+	</div>
+{% endblock meta %}

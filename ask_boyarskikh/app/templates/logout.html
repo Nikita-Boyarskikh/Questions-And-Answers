@@ -1,0 +1,4 @@
+{% extends 'base.html' %}
+{% block content %}
+{% transblock %}<h1>You must <a href="{% url 'logout' %}">logout</a> before {{ title }}</h1>
+{% endblock content %}
