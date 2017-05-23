@@ -29,6 +29,11 @@ db_port='3306'
 superuser='root'
 superpass='Ybrbnf02'
 
+# Настройки memcached
+memcached_host='127.0.0.1'
+memcached_socket='memcached.sock'
+memcached_log='log/memcached.log'
+
 # Настройки админа
 name='Nikita-Boyarskikh'
 email='N02@yandex.ru'
@@ -94,6 +99,7 @@ else echo -e "[1;31m[ERROR] creating or copying nginx files failed :([1;39m"; 
 fi
 
 # Добавим необходимые данные для сертификата
+# echo -e "[1;39m\tCreating configuration of SSL certificate...[0;39m"
 # if cp conf/ssl.ini conf/tmp.ini && echo "$host" >> conf/tmp.ini &&
 # echo "$email" >> conf/tmp.ini && cp -f conf/tmp.ini $root_path/ && rm conf/tmp.ini
 # then echo -e "[1;32m[OK][0;37m"
@@ -101,12 +107,25 @@ fi
 # fi
 
 # Генерация сертификатов
-# echo "Generating self-signed certificate..."
+# echo -e "[1;39m\tGenerating self-signed certificate...[0;39m"
 # if cat conf/ssl.ini | openssl req -newkey rsa:2048 -sha256 -nodes -keyout ssl/webhook_cert.key \
 # 	-x509 -days 3650 -out ssl/webhook_cert.pem > /dev/null
 # then echo -e "[1;32m[OK][0;37m"
 # else echo -e "[1;31m[ERROR] can't generate certificate :([1;39m"; echo "exit...[0;39m"; exit 1
 # fi
+
+# Копирование конфигурации memcached
+echo -e "[1;39m\tCreating configuration of memcache...[0;39m"
+if cp conf/memcached.conf conf/tmp.conf &&
+echo -e "
+-l $memcached_host
+logfile '$root_path/$project_name/$memcahced_log'
+-s '$root_path/$project_name/$memcached_socket'" >> conf/tmp.conf &&
+cp conf/tmp.conf /etc/memcached.conf &&
+rm -f conf/tmp.conf
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] configuration memcached failed :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
 
 # Создаём необходимые пути и права
 echo -e "[1;39m\tCopying files and creating paths...[0;39m"
@@ -125,17 +144,35 @@ cp -r $home_dir/$project_name/app/*.py $root_path/$project_name/app/ &&
 cp -r $home_dir/$project_name/app/uploads $root_path/$project_name/app/ &&
 cp -r $home_dir/$project_name/app/templates $root_path/$project_name/app/ &&
 cp -r $home_dir/$project_name/app/management $root_path/$project_name/app/ &&
+cp -r $home_dir/$project_name/app/locale $root_path/$project_name/app/locale &&
 mkdir $root_path/conf && cd $root_path &&
 cp $home_dir/conf/config.ini $root_path/conf/config.ini &&
-touch $root_path/$project_name/log/nginx_access.log && touch $root_path/$project_name/log/nginx_error.log
+cp $home_dir/conf/my.cnf $root_path/conf/ &&
+touch $root_path/$project_name/log/nginx_access.log && touch $root_path/$project_name/log/nginx_error.log &&
+chmod +x $root_path/$project_name/manage.py
 then echo -e "[1;32m[OK][0;39m"
 else echo -e "[1;31m[ERROR] copying files or creating paths failed :([1;39m"; echo "exit...[0;39m"; exit 1
 fi
 
+# Конфигурируем и запускаем почтовый сервис
+echo -e "[1;39m\tCreating configuration of post service...[0;39m"
+if postconf -e 'inet_interfaces = localhost' && service postfix restart
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] configuring or start postfix failed :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
+
 # Тестируем конфигурацию и запускаем nginx
+echo -e "[1;39m\tStarting nginx...[0;39m"
 if nginx -t && service nginx start
 then echo -e "[1;32m[OK][0;39m"
 else echo -e "[1;31m[ERROR] configuration nginx failed :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
+
+# Запускаем memcached
+echo -e "[1;39m\tStarting memcached...[0;39m"
+if service memcached restart
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] can't start memcached :([1;39m"; echo "exit...[0;39m"; exit 1
 fi
 
 # Устанавливаем необходимые зависимости python3
@@ -164,7 +201,7 @@ if cd $project_name && python3 manage.py makemigrations app
 then
 	if python3 manage.py migrate
 	then
-		if echo -e "from django.contrib.auth.models import User; User.objects.create_superuser('$admin_name', '$admin_email', '$admin_pass')" | python3 manage.py shell
+		if echo -e "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$admin_name', '$admin_email', '$admin_pass')" | python3 manage.py shell
 		then
 			echo -e "[1;32m[OK][0;39m"
 		else
@@ -177,10 +214,21 @@ else
 	echo -e "[1;31m[ERROR] can't makemigrations database :([1;39m"; echo "exit...[0;39m"; exit 1
 fi
 
+# Создаём крон-задачи
+echo -e "[1;39m\tCreating cron tasks...[0;39m"
+if echo -e "SHELL=/bin/bash\nMAILTO=$email" > $root_path/conf/crons.sh &&
+echo -e "root_path=$root_path\nproject_name=$project_name" >> $root_path/conf/crons.sh &&
+cat $home_dir/conf/crons.sh >> $root_path/conf/crons.sh &&
+crontab $root_path/conf/crons.sh
+then echo -e "[1;32m[OK][0;39m"
+else echo -e "[1;31m[ERROR] can't create or start cron tasks :([1;39m"; echo "exit...[0;39m"; exit 1
+fi
+
 #----------Запускаем приложение----------
 
 if python3 manage.py collectstatic --no-input -cl &&
-cp -r $home_dir/$project_name/app/static $root_path/$project_name/app/
+cp -r $home_dir/$project_name/app/static $root_path/$project_name/app/ &&
+python3 manage.py compilemessages
 then
 	# Даём права www-data (сервера) на директорию проекта
 	if chown -R www-data $root_path &&
@@ -189,7 +237,7 @@ then
 		echo -e "[1;32m[OK] GUNICORN STARTED![0;39m"
 		if service nginx start
 		then
-			echo -e "[1;32m[OK] NGINX STARTED![0;39m"
+			echo -e "[1;32m[OK] DEPLOY SUCCESSFULL![0;39m"
 		else
 			echo -e "[1;31m[ERROR] can't start nginx :([1;39m"; echo "exit...[0;39m"; exit 1
 		fi
@@ -197,9 +245,7 @@ then
 		echo -e "[1;31m[ERROR] can't start gunicorn :([1;39m"; echo "exit...[0;39m"; exit 1
 	fi
 else
-	echo -e "[1;31m[ERROR] can't collect static :([1;39m"; echo "exit...[0;39m"; exit 1
+	echo -e "[1;31m[ERROR] can't collect static and compile translations :([1;39m"; echo "exit...[0;39m"; exit 1
 fi
-
-echo -e "[1;32m[OK] DEPLOY SUCCESSFULL![0;39m"
 
 exit 0

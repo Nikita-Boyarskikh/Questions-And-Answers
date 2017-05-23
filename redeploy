@@ -1,4 +1,9 @@
-sudo ./remove
-sudo ./deploy
+sudo -H ./remove
+if sudo -H ./deploy &&
 cd /WEB/ask_boyarskikh
-sudo python3 manage.py filldata
+then
+sudo python3 manage.py regular_update_hot_tags &&
+sudo python3 manage.py regular_update_best_users
+fi
+
+# sudo python3 manage.py filldata &&

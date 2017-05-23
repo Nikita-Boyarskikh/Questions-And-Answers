@@ -44,7 +44,6 @@ textarea {
 	font-size: 2em;
 	list-style: none;
 }
-
 .nav .member {
 	margin-top: 2.5px;
 }
@@ -56,6 +55,7 @@ textarea {
 .dropdown-toggle {
 	padding: 0 !important;
 }
+
 .ask {
 	padding-top: 7.5px !important;
 	margin-right: 30px;
@@ -97,7 +97,6 @@ textarea {
 	padding: 10px;
 	font-size: 16px;
 }
-
 .form-signin input[type="email"] {
 	margin-bottom: -1px;
 	border-bottom-right-radius: 0;
@@ -160,7 +159,6 @@ textarea {
 	right: 16.666666666%;
 	width: 5%;
 }
-
 #back-top a {
 	display: block;
 	text-align: center;
@@ -172,11 +170,9 @@ textarea {
 	-moz-transition: 1s;
 	transition: 1s;
 }
-
 #back-top a:hover {
 	color: #000;
 }
-
 #back-top span.inner {
 	display: block;
 	font-size: 50px;
@@ -193,13 +189,11 @@ textarea {
 	margin-bottom: 5%;
 	overflow: hidden; /* clearfix */
 }
-
 #back-top span.inner:before {
 	content: "";
 	padding-top: 100%;
 	float: left;
 }
-
 #back-top a:hover span {
 	background-color: #777;
 }

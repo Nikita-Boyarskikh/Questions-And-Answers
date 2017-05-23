@@ -1,0 +1,392 @@
+# TRANSLATIONS FOR QUESTIONS_AND_ANSWERS PROJECT.
+# Copyright (C) 2017 Nikita-Boyarskikh
+# This file is distributed under the same license as the Questions_ans_Answers package.
+# Nikita Boyarskikh <N02@yandex.ru>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-21 21:38+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Boayrskikh Nikita <N02@yandex.ru>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: app/forms.py:21 app/models.py:21 app/models.py:75 app/templates/ask.html:8
+msgid "Title"
+msgstr "Title"
+
+#: app/forms.py:24 app/models.py:22 app/models.py:120
+#: app/templates/ask.html:17 app/templates/question.html:18
+msgid "Text"
+msgstr "Text"
+
+#: app/forms.py:28
+msgid "is too long"
+msgstr "is too long"
+
+#: app/forms.py:31
+#, python-format
+msgid "%(model_name)s's %(field_lables)s are not unique."
+msgstr "%(model_name)s's fields %(field_lables)s are not unique."
+
+#: app/management/commands/filldata.py:23
+msgid "Fill database with fake data"
+msgstr "Fill database with fake data"
+
+#: app/management/commands/filldata.py:34
+msgid "Path to root directiory of the project"
+msgstr "Path to root directiory of the project"
+
+#: app/management/commands/filldata.py:35
+msgid "Number of adding users"
+msgstr "Number of adding users"
+
+#: app/management/commands/filldata.py:36
+msgid "Number of adding questions"
+msgstr "Number of adding questions"
+
+#: app/management/commands/filldata.py:37
+msgid "Number of adding answers for each question"
+msgstr "Number of adding answers for each question"
+
+#: app/management/commands/filldata.py:38
+msgid "Number of adding tags for each question"
+msgstr "Number of adding tags for each question"
+
+#: app/management/commands/filldata.py:66 app/models.py:54
+msgid "User"
+msgstr "User"
+
+#: app/management/commands/filldata.py:81
+msgid "tag"
+msgstr "tag"
+
+#: app/management/commands/filldata.py:87
+msgid "question"
+msgstr "question"
+
+#: app/management/commands/filldata.py:89
+#: app/management/commands/filldata.py:102
+msgid "A lot of text...\n"
+msgstr "A lot of text...\n"
+
+#: app/models.py:23 app/models.py:44 app/models.py:121
+msgid "Raiting"
+msgstr "Raiting"
+
+#: app/models.py:24
+msgid "Published"
+msgstr "Published"
+
+#: app/models.py:25
+msgid "Create time"
+msgstr "Create time"
+
+#: app/models.py:27 app/models.py:84
+msgid "Tag"
+msgstr "Tag"
+
+#: app/models.py:28 app/models.py:124
+msgid "Author"
+msgstr "Author"
+
+#: app/models.py:37 app/models.py:123
+msgid "Question"
+msgstr "Question"
+
+#: app/models.py:38
+msgid "Questions"
+msgstr "Questions"
+
+#: app/models.py:45
+msgid "Avatar"
+msgstr "Avatar"
+
+#: app/models.py:47
+msgid "Inner user"
+msgstr "Inner user"
+
+#: app/models.py:55
+msgid "Users"
+msgstr "Users"
+
+#: app/models.py:67
+msgid "Best user"
+msgstr "Best user"
+
+#: app/models.py:68
+msgid "Best users"
+msgstr "Best users"
+
+#: app/models.py:76
+msgid "Number of posts with this tag"
+msgstr "Number of posts with this tag"
+
+#: app/models.py:85 app/templates/ask.html:25
+msgid "Tags"
+msgstr "Tags"
+
+#: app/models.py:112
+msgid "Hot tag"
+msgstr "Hot tag"
+
+#: app/models.py:113
+msgid "Hot tags"
+msgstr "Hot tags"
+
+#: app/models.py:129
+msgid "..."
+msgstr "..."
+
+#: app/models.py:132 app/templates/question.html:35
+msgid "Answer"
+msgstr "Answer"
+
+#: app/models.py:133 app/templates/one_question.html:15
+msgid "Answers"
+msgstr "Answers"
+
+#: app/templates/ask.html:11
+msgid "Enter title of your question here"
+msgstr "Enter title of your question here"
+
+#: app/templates/ask.html:14
+msgid "Enter title of question"
+msgstr "Enter title of question"
+
+#: app/templates/ask.html:22
+msgid "Enter text of your question"
+msgstr "Enter text of your question"
+
+#: app/templates/ask.html:35 app/templates/question.html:28
+#: app/templates/registration.html:61 app/templates/registration/login.html:29
+msgid "prove that your not a robot"
+msgstr "prove that your not a robot"
+
+#: app/templates/ask.html:36 app/templates/question.html:29
+#: app/templates/registration.html:62 app/templates/registration/login.html:30
+msgid "before you enter"
+msgstr "before you enter"
+
+#: app/templates/ask.html:42
+msgid "Ask!"
+msgstr "Ask!"
+
+#: app/templates/base.html:13
+#, python-format
+msgid "AskIt! - %(title)s"
+msgstr "AskIt! - %(title)s"
+
+#: app/templates/base.html:37
+msgid "ASK!"
+msgstr "ASK!"
+
+#: app/templates/base.html:54
+msgid "Profile"
+msgstr "Profile"
+
+#: app/templates/base.html:59
+msgid "Settings"
+msgstr "Settings"
+
+#: app/templates/base.html:65
+msgid "Logout"
+msgstr "Logout"
+
+#: app/templates/base.html:72 app/templates/registration.html:7
+#: app/views.py:60
+msgid "Login"
+msgstr "Login"
+
+#: app/templates/base.html:78
+msgid "Search for..."
+msgstr "Search for..."
+
+#: app/templates/base.html:111
+msgid "© Boyarskikh Nikita, 2017<br> Phone: 8 (916) 385-7622<br> E-Mail:"
+msgstr "© Boyarskikh Nikita, 2017<br> Phone: 8 (916) 385-7622<br> E-Mail:"
+
+#: app/templates/base.html:121
+msgid "Popular tags:"
+msgstr "Popular tags:"
+
+#: app/templates/base.html:135
+msgid "There are no tags yet..."
+msgstr "There are no tags yet..."
+
+#: app/templates/base.html:140
+msgid "Best answerers:"
+msgstr "Best answerers:"
+
+#: app/templates/base.html:151
+msgid "There are no users yet..."
+msgstr "There are no users yet..."
+
+#: app/templates/base.html:159
+msgid "Back to Top"
+msgstr "Back to Top"
+
+#: app/templates/index.html:18
+msgid "There are no questions yet..."
+msgstr "There are no questions yet..."
+
+#: app/templates/question.html:6
+msgid "Answers:"
+msgstr "Answers:"
+
+#: app/templates/question.html:10
+msgid "There are no answers yet..."
+msgstr "There are no answers yet..."
+
+#: app/templates/question.html:11
+msgid "You can be first!"
+msgstr "You can be first!"
+
+#: app/templates/question.html:14
+msgid "Write your answer:"
+msgstr "Write your answer:"
+
+#: app/templates/question.html:23
+msgid "Enter text of your answer"
+msgstr "Enter text of your answer"
+
+#: app/templates/registration.html:10
+msgid "Please enter your login"
+msgstr "Please enter your login"
+
+#: app/templates/registration.html:11
+msgid "Enter your login here"
+msgstr "Enter your login here"
+
+#: app/templates/registration.html:14
+msgid "Enter your login"
+msgstr "Enter your login"
+
+#: app/templates/registration.html:17
+msgid "Your e-mail"
+msgstr "Your e-mail"
+
+#: app/templates/registration.html:20
+msgid "Email"
+msgstr "Email"
+
+#: app/templates/registration.html:20
+msgid "Wrong e-mail"
+msgstr "Wrong e-mail"
+
+#: app/templates/registration.html:23
+msgid "Enter your e-mail"
+msgstr "Enter your e-mail"
+
+#: app/templates/registration.html:26 app/templates/registration/login.html:7
+msgid "Nick"
+msgstr "Nick"
+
+#: app/templates/registration.html:29
+msgid "Enter correct nickname"
+msgstr "Enter correct nickname"
+
+#: app/templates/registration.html:30 app/templates/registration/login.html:11
+msgid "Enter your nick here"
+msgstr "Enter your nick here"
+
+#: app/templates/registration.html:33
+msgid "Enter your nick"
+msgstr "Enter your nick"
+
+#: app/templates/registration.html:36 app/templates/registration/login.html:17
+msgid "Enter password"
+msgstr "Enter password"
+
+#: app/templates/registration.html:40 app/templates/registration/login.html:24
+msgid "Mininum 6 charachters"
+msgstr "Mininum 6 charachters"
+
+#: app/templates/registration.html:43
+msgid "Please enter correct your password"
+msgstr "Please enter correct your password"
+
+#: app/templates/registration.html:44
+msgid "Error! Passwords is not match!"
+msgstr "Error! Passwords is not match!"
+
+#: app/templates/registration.html:44
+msgid "Repeat your password"
+msgstr "Repeat your password"
+
+#: app/templates/registration.html:50
+msgid "Your avatar"
+msgstr "Your avatar"
+
+#: app/templates/registration.html:53
+msgid "Please load your avatar"
+msgstr "Please load your avatar"
+
+#: app/templates/registration.html:56
+msgid "Load your avatar"
+msgstr "Load your avatar"
+
+#: app/templates/registration.html:68
+msgid "Submit"
+msgstr "Submit"
+
+#: app/templates/registration/login.html:10
+msgid "Please enter correct nickname"
+msgstr "Please enter correct nickname"
+
+#: app/templates/registration/login.html:14
+msgid "Enter nick"
+msgstr "Enter nick"
+
+#: app/templates/registration/login.html:21
+msgid "Please enter your password"
+msgstr "Please enter your password"
+
+#: app/templates/registration/login.html:35
+msgid "Not registered yet?"
+msgstr "Not registered yet?"
+
+#: app/templates/registration/login.html:38
+msgid "Enter"
+msgstr "Enter"
+
+#: app/views.py:22 app/views.py:108
+msgid "Last questions"
+msgstr "Last questions"
+
+#: app/views.py:23 app/views.py:107
+msgid "Hot questions"
+msgstr "Hot questions"
+
+#: app/views.py:46
+msgid "Registration"
+msgstr "Registration"
+
+#: app/views.py:70
+msgid "User's settings"
+msgstr "User's settings"
+
+#: app/views.py:76
+msgid "New question"
+msgstr "New question"
+
+#: app/views.py:92 app/views.py:100
+msgid "Answer the question"
+msgstr "Answer the question"
+
+#: ask_boyarskikh/settings.py:173
+msgid "English"
+msgstr "English"
+
+#: ask_boyarskikh/settings.py:174
+msgid "Russian"
+msgstr "Russian"

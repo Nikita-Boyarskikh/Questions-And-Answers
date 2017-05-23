@@ -16,3 +16,6 @@ python-tk
 libmysqlclient-dev
 mysql-server
 memcached
+gettext
+mailutils
+redis-tools

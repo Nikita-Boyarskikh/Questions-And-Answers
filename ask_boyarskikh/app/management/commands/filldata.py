@@ -1,15 +1,20 @@
 from django.core.management.base import BaseCommand, CommandError
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.files import File
+from django.utils.translation import ugettext as _
 
-from app.models import Profile, Answer, Question, Tag
-
+from app.models import Profile, Answer, Question, Tag, Like
 from configparser import ConfigParser
+
 import os
 import random
 import datetime
 
+User = get_user_model()
+
 class Command(BaseCommand):
+
+	leave_locale_alone=True
 
 	class Configuration:
 		def __init__(self):
@@ -19,7 +24,7 @@ class Command(BaseCommand):
 		def config_get(self, section, option, default=None):
 			return self.config.get(section, option)
 	
-	help = 'Fill database with fake data'
+	help = _('Fill database with fake data')
 	
 	opts = (
 		'root_path',
@@ -30,11 +35,11 @@ class Command(BaseCommand):
 	)
 	
 	def add_arguments(self, parser):
-		parser.add_argument('--root-path', nargs=1, help='Path to root directiory of the project')
-		parser.add_argument('--users', nargs=1, type=int, help='Number of adding users')
-		parser.add_argument('--questions', type=int, nargs=1, help='Number of adding questions')
-		parser.add_argument('--answers', type=int, nargs=1, help='Number of adding answers for each question')
-		parser.add_argument('--tags', type=int, nargs=1, help='Number of adding tags for each answer')
+		parser.add_argument('--root-path', nargs=1, help=_('Path to root directiory of the project'))
+		parser.add_argument('--users', nargs=1, type=int, help=_('Number of adding users'))
+		parser.add_argument('--questions', type=int, nargs=1, help=_('Number of adding questions'))
+		parser.add_argument('--answers', type=int, nargs=1, help=_('Number of adding answers for each question'))
+		parser.add_argument('--tags', type=int, nargs=1, help=_('Number of adding tags for each question'))
 	
 	def handle(self, *args, **options):
 		if not all([ options[opt] for opt in self.opts]):
@@ -62,7 +67,7 @@ class Command(BaseCommand):
 		
 		for i in range(USER_NUMBER):
 			user = User.objects.create_user(
-				'User' + str(i),
+				_('User') + str(i),
 				password = 'pass' + str(i),
 				email = 'user' + str(i) + '@ask.ru'
 			)
@@ -77,15 +82,15 @@ class Command(BaseCommand):
 		for i in range(TAG_NUMBER):
 			tag = Tag()
 			tag.count = 0
-			tag.title = 'tag' + str(i)
+			tag.title = _('tag') + str(i)
 			tag.save()
 			tags.append(tag)
 		
 		for i in range(QUESTION_NUMBER):
 			question = Question()
-			question.title = 'question' + str(i)
+			question.title = _('question') + str(i)
 			question.author = users[random.randint(0, len(users) - 1)]
-			question.text = '\n'.join([ 'Много-много текста' for _ in range(10) ])
+			question.text = _('A lot of text...\n')
 			question.raiting = random.randint(-10, 10)
 			question.is_published = True
 			question.create_date = datetime.date.today()
@@ -98,7 +103,7 @@ class Command(BaseCommand):
 		
 		for i in range(ANSWER_NUMBER):
 			answer = Answer()
-			answer.text = '\n'.join([ 'Много-много текста' for _ in range(10) ])
+			answer.text = _('A lot of text...\n')
 			answer.raiting = random.randint(0, 10)
 			answer.question = questions[random.randint(0, len(questions) - 1)]
 			answer.author = users[random.randint(0, len(users) - 1)]
