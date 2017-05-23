@@ -1,8 +1,26 @@
 from __future__ import unicode_literals
 import random
+
 from django.db import models
-from django.contrib.auth.models import User
-from django.db.models import Count
+from django.contrib.auth.models import AbstractUser, UserManager
+# NOTE: F() help save consistents of data in DB. If you're use field from DB in some expression, you're should use F() object like this:
+# NOT field += 1 BUT field = F('field') + 1
+from django.db.models import Count, F
+from django.utils.translation import string_concat, ugettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+class Like(models.Model):
+    user = models.ForeignKey('Profile', verbose_name=_('User'))
+    question = models.ForeignKey('Question', verbose_name=_('Question'))
+    answer = models.ForeignKey('Answer', verbose_name=_('Answer'))
+
+    def __str__(self):
+        return 'user "%s" likes "%s" answer' % (self.user, self.answer)
+
+    class Meta:
+        verbose_name = _('Like')
+        verbose_name_plural = _('Likes')
 
 class QuestionManager(models.Manager):
     def answers_count(self):
@@ -13,14 +31,15 @@ class QuestionManager(models.Manager):
         return self.order_by('-raiting')
 
 class Question(models.Model):
-    title = models.CharField(max_length=255, verbose_name=u"Заголовок", db_index = True)
-    text = models.TextField(verbose_name=u"Текст")
-    raiting = models.SmallIntegerField(default=0, verbose_name=u"Рейтинг")
-    is_published = models.BooleanField(verbose_name=u"Опубликована")
-    create_date = models.DateField(verbose_name=u"Время создания")
+    title = models.CharField(max_length=255, verbose_name=_('Title'), db_index = True)
+    text = models.TextField(verbose_name=_('Text'))
+    raiting = models.SmallIntegerField(default=0, editable=False, verbose_name=_('Raiting'))
+    is_published = models.BooleanField(default=True, editable=False, verbose_name=_('Published'))
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Create time'))
 
-    tags = models.ManyToManyField('Tag', blank=True, verbose_name=u"Тег")
-    author = models.ForeignKey('Profile', verbose_name=u"Автор")
+    tags = models.ManyToManyField('Tag', blank=True, verbose_name=_('Tag'))
+    author = models.ForeignKey('Profile', verbose_name=_('Author'))
+#    right_answer = models.ForeignKey('Answer', blank=True, verbose_name=_('Right answer'))
 
     objects = QuestionManager()
 
@@ -28,96 +47,72 @@ class Question(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['create_date']
-        verbose_name = u"Вопрос"
-        verbose_name_plural = u"Вопросы"
+        ordering = ['create_date', 'title']
+        verbose_name = _('Question')
+        verbose_name_plural = _('Questions')
 
-class Profile(models.Model):
+class ProfileManager(UserManager):
+    def get_by_name(self, username):
+        return self.get(username=username)
+
+class Profile(AbstractUser):
     def _get_image_name(self, image_name):
         return str(self.user.id) + image_name.split('.')[-1]
+    
+    avatar = models.ImageField(
+        _('Avatar'),
+        upload_to=_get_image_name,
+        max_length=1024,
+    )
 
-    raiting = models.SmallIntegerField(default=0, verbose_name=u"Рейтинг")
-    avatar = models.ImageField(upload_to=_get_image_name, max_length=1024, verbose_name=u"Аватар")
-
-    user = models.OneToOneField(User, verbose_name=u"Джанго-пользователь")
+#    objects = ProfileManager()
 
     def __str__(self):
         return self.user.username
 
     class Meta:
-        ordering = ['user__username']
-        verbose_name = u"Пользователя"
-        verbose_name_plural = u"Пользователи"
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
 
-class BestProfileManager(models.Manager):
-    def get(self):
-        return self.all()[:5]
-
-class BestProfile(models.Model):
-    profile = models.OneToOneField(Profile)
-    objects = BestProfileManager()
-
-    class Meta:
-        ordering = ['-profile__raiting']
-        verbose_name = u"Лучший пользователь"
-        verbose_name_plural = u"Лучшие пользователи"
+class TagManager(models.Manager):
+    def questions(self, tid):
+        return self.get(id=tid).question_set.order_by('-raiting').all()[:20]
 
 class Tag(models.Model):
-    title = models.CharField(max_length=255, verbose_name=u"Название", db_index = True)
-    count = models.PositiveIntegerField(verbose_name=u"Количество постов с этим тегом")
+    title = models.SlugField(max_length=255, verbose_name=_('Title'))
+
+    objects = TagManager()
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ['count']
-        verbose_name = u"Тег"
-        verbose_name_plural = u"Теги"
-
-class HotTagsManager(models.Manager):
-    def get(self):
-        return self.all()[:5]
-
-class HotTags(models.Model):
-    tag = models.OneToOneField(Tag)
-    objects = HotTagsManager()
-
-    def size(self):
-        return random.random()*3 + 0.5
-
-    def title(self):
-        return self.tag.title
-
-    def color(self):
-        return {
-                   'r': random.random()*200,
-                   'g': random.random()*200,
-                   'b': random.random()*200,
-               }
-
-    def __str__(self):
-        return str(self.tag)
-
-    class Meta:
-        verbose_name = u"Горячий тег"
-        verbose_name_plural = u"Горячие теги"
+        ordering = ['title']
+        verbose_name = _('Tag')
+        verbose_name_plural = _('Tags')
 
 class AnswerManager(models.Manager):
     def questions(self, qid):
-        return Answer.objects.filter(Question_id=qid)
+        return Answer.objects.filter(question_id=qid)
 
 class Answer(models.Model):
-    text = models.TextField(verbose_name=u"Текст")
-    raiting = models.SmallIntegerField(default=0, verbose_name=u"Рейтинг")
+    text = models.TextField(verbose_name=_('Text'))
+    raiting = models.SmallIntegerField(default=0, verbose_name=_('Raiting'))
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Create time'))
 
-    question = models.ForeignKey('Question', verbose_name=u"Вопрос", db_index = True)
-    author = models.ForeignKey('Profile', verbose_name=u"Автор")
+    question = models.ForeignKey('Question', verbose_name=_('Question'), db_index = True)
+    author = models.ForeignKey('Profile', verbose_name=_('Author'))
 
     objects = AnswerManager()
 
+    def save(self, *args, **kwargs):
+        super(Answer, self).save(*args, **kwargs)
+        #TODO send e-mail
+
     def __str__(self):
-        return self.text[:30] + '...'
+        return string_concat(self.text[:30] + _('...'))
 
     class Meta:
-        verbose_name = u"Ответ"
-        verbose_name_plural = u"Ответы"
+        ordering = ['-raiting', 'create_date']
+        verbose_name = _('Answer')
+        verbose_name_plural = _('Answers')

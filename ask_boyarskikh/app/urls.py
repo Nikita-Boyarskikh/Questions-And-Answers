@@ -13,20 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from app import views
 
 urlpatterns = [
-    url(r'^hello$', views.hello, name='HelloWorld'),
+    url(r'^hello/?$', views.hello, name='HelloWorld'),
     url(r'^$', views.index, name='index'),
     url(r'^$', views.index, name='search'), #TODO
-    url(r'^user/(\w+)$', views.user, name='user'),
-    url(r'^tag/(\w+)$', views.tag, name='tag'),
-    url(r'^registration$', views.registration, name='registration'),
-    url(r'^settings$', views.settings, name='settings'),
-    url(r'^login$', views.login, name='login'),
-    url(r'^question/(\d+)$', views.question, name='question'),
-    url(r'^hot$', views.hot, name='hot'),
-    url(r'^ask$', views.ask, name='ask'),
-    url(r'^answer/(\d+)$', views.answer, name='answer'),
+    url(r'^user/(\w+)/?$', views.user, name='user'),
+    url(r'^tag/(\w+)/?$', views.tag, name='tag'),
+    url(r'^signup/?$', views.registration, name='registration'),
+    url(r'^profile/edit?$', views.settings, name='settings'),
+    url(r'^question/(\d+)/?$', views.question, name='question'),
+    url(r'^hot/?$', views.hot, name='hot'),
+    url(r'^ask/?$', views.ask, name='ask'),
+    url(r'^answer/?(\d+)$', views.answer, name='answer'),
+    url(r'^', include('django.contrib.auth.urls')),
 ]

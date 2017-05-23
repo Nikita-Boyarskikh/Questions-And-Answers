@@ -2,6 +2,8 @@
 Django settings for PROJECT_NAME project.
 """
 
+from django.utils.translation import ugettext_lazy as _
+
 import os
 import socket
 from config import Configuration
@@ -32,6 +34,8 @@ else:
     ]
 
 
+AUTH_USER_MODEL = 'app.Profile'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,13 +46,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # custom
+    'channels',
+
+    # own
     'app',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -80,11 +92,17 @@ WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config.config_get('DB', 'name'),
-        'USER': config.config_get('DB', 'user'),
-        'PASSWORD': config.config_get('DB', 'passwd'),
-        'HOST': config.config_get('DB', 'host'),
-        'PORT': config.config_get('DB', 'port'),
+        'OPTIONS': {
+            'read_default_file': config.config_get('DB', 'mycnf_path'),
+            'init_command': 'SET sql_mode=STRICT_ALL_TABLES',
+        },
+    }
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'unix:' + os.path.join(BASE_DIR, 'memcached.sock'),
     }
 }
 
@@ -122,10 +140,18 @@ LOGGING = {
     }
 }
 
-DEFAULT_FROM_EMAIL = config.config_get('Admin', 'email')
-SERVER_EMAIL = config.config_get('Admin', 'email')
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+        'ROUTING': 'ask_sdemidenko.routing.channel_routing',
+    }
+}
 
-FIRST_DAY_OF_WEEK = 1
+DEFAULT_FROM_EMAIL = config.config_get('Admin', 'email')
+SERVER_EMAIL = config.config_get('boot', 'app') + '@' + socket.gethostname()
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -142,18 +168,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'ru-ru'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
 
-TIME_ZONE = 'Europe/Moscow'
+LANGUAGES = [
+  ('en', _('English')),
+  ('ru', _('Russian')),
+]
 
+FIRST_DAY_OF_WEEK = 1
+LANGUAGE_CODE = 'ru'
 USE_I18N = True
-
 USE_L10N = True
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'app', 'locale'),
+)
 
 USE_TZ = True
+TIME_ZONE = 'Europe/Moscow'
 
-LOGIN_URL = 'login'
+USE_X_FORWARDED_HOST = True
+
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
+LOGIN_REDIRECT_URL = '/user'
+
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'app', 'uploads/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'app', 'uploads')
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'app', 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'app', 'static')

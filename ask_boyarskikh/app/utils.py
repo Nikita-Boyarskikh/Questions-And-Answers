@@ -1,9 +1,32 @@
-from django.http import Http404
+from django.http import JsonResponse, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.cache import cache
 
-from app.models import HotTags, BestProfile, Profile
+from app.models import Profile
 
-OBJS_ON_PAGE = 10
+OBJS_ON_PAGE = 20
+
+class AjaxableResponseMixin(object):
+    """
+    Mixin to add AJAX support to a form.
+    Must be used with an object-based FormView
+    """
+    def form_invalid(self, form):
+        response = super(AjaxableResponseMixin, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        response = super(AjaxableResponseMixin, self).form_valid(form)
+        if self.request.is_ajax():
+            data = {
+                'pk': self.object.pk,
+            }
+            return JsonResponse(data)
+        else:
+            return response
 
 def get_cur_user(request):
     user_id = request.COOKIES.get('user_id')
@@ -15,12 +38,12 @@ def get_cur_user(request):
 
 def base_context(request):
     user = get_cur_user(request)
-    tags = HotTags.objects.get()
-    users = BestProfile.objects.get()
+    tags = cache.get('hot_tags')
+    best_users = cache.get('best_users')
     return {
                'user': user,
+               'bestusers': best_users,
                'tags': tags,
-               'users': users,
                'error': None,
            }
 
