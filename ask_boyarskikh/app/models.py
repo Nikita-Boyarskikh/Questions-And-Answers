@@ -57,7 +57,7 @@ class ProfileManager(UserManager):
 
 class Profile(AbstractUser):
     def _get_image_name(self, image_name):
-        return str(self.user.id) + image_name.split('.')[-1]
+        return str(self.id) + image_name.split('.')[-1]
     
     avatar = models.ImageField(
         _('Avatar'),
@@ -65,10 +65,10 @@ class Profile(AbstractUser):
         max_length=1024,
     )
 
-#    objects = ProfileManager()
+    objects = ProfileManager()
 
     def __str__(self):
-        return self.user.username
+        return self.username
 
     class Meta:
         verbose_name = _('User')

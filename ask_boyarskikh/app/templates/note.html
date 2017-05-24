@@ -5,11 +5,11 @@
 	<div class="panel-body">
 		<div class="row question-content">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
-				<a href="{% url 'user' note.author.user.username %}">
+				<a href="{% url 'user' note.author.username %}">
 					<img src="{{ note.author.avatar.url }}" class="img-circle center-block" width="100%"
-							alt="{{ note.author.user.username }}">
+							alt="{{ note.authr.username }}">
 					<div class="clearfix"></div><br>
-					<h3 class="text-center">{{ note.author.user.get_full_name }}</h3>
+					<h3 class="text-center">{{ note.author.usr.get_full_name }}</h3>
 				</a>
 			</div>
 			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10">

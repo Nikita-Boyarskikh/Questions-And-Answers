@@ -67,17 +67,16 @@ class Command(BaseCommand):
 		
 		for i in range(USER_NUMBER):
 			user = User.objects.create_user(
-				_('User') + str(i),
+				username = _('User') + str(i),
 				password = 'pass' + str(i),
-				email = 'user' + str(i) + '@ask.ru'
+				email = 'user' + str(i) + '@ask.ru',
+                                first_name = 'lol',
+                                last_name = 'kek',
 			)
-			profile = Profile()
-			profile.user = user
-			profile.raiting = 0
 			tmp_f = open(os.path.join(ROOT_PATH, 'user' + str(i) + '.png'), 'rb')
 			f = File(tmp_f)
-			profile.avatar.save('User' + str(i) + '.png', f, save=True)
-			users.append(profile)
+			user.avatar.save('User' + str(i) + '.png', f, save=True)
+			users.append(user)
 		
 		for i in range(TAG_NUMBER):
 			tag = Tag()
