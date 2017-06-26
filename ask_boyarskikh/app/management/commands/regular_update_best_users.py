@@ -10,12 +10,6 @@ class Command(BaseCommand):
 	help = _('Cron script that update best users')
 	
 	def handle(self, *args, **options):
-            all_questions = Question.objects.all().count()
-            bestusers = [{
-                    'avatar': user.avatar,
-                    'username': user.username,
-                    'get_full_name': user.get_full_name(),
-                } for user in Profile.objects.all().annotate(score=(Count('question') + Count('answer')))[:10]
-            ]
+            bestusers = [ user.id for user in Profile.objects.all().annotate(score=(Count('question') + Count('answer'))).order_by('-score')[:10] ]
             cache.delete('bestusers')
             cache.set('bestusers', bestusers, 31*60) # 31 минуту хранить

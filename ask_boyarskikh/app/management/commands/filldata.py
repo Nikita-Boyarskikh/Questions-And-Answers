@@ -47,13 +47,13 @@ class Command(BaseCommand):
 		if not options['root_path']:
 			options['root_path'] = os.path.join(config.config_get('boot', 'root_dir'), config.config_get('boot', 'app'), 'app', 'uploads', 'img')
 		if not options['users']:
-			options['users'] = int(config.config_get('filldata', 'users'))
+			options['users'] = int(config.config_get('data', 'users'))
 		if not options['questions']:
-			options['questions'] = int(config.config_get('filldata', 'questions'))
+			options['questions'] = int(config.config_get('data', 'questions'))
 		if not options['answers']:
-			options['answers'] = int(config.config_get('filldata', 'answers'))
+			options['answers'] = int(config.config_get('data', 'answers'))
 		if not options['tags']:
-			options['tags'] = int(config.config_get('filldata', 'tags'))
+			options['tags'] = int(config.config_get('data', 'tags'))
 		
 		ROOT_PATH = options['root_path']
 		USER_NUMBER = options['users']
@@ -81,7 +81,7 @@ class Command(BaseCommand):
 		for i in range(TAG_NUMBER):
 			tag = Tag()
 			tag.count = 0
-			tag.title = _('tag') + str(i)
+			tag.title = 'tag' + str(i)
 			tag.save()
 			tags.append(tag)
 		
@@ -94,7 +94,8 @@ class Command(BaseCommand):
 			question.is_published = True
 			question.create_date = datetime.date.today()
 			question.save()
-			for n in range(0, len(tags)):
+			tag_number = random.randint(0, min( len(tags), 3 ))
+			for n in range(tag_number):
 				t = random.randint(0, TAG_NUMBER)
 				if t != TAG_NUMBER:
 					question.tags.add(tags[t])
