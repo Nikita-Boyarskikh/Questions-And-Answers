@@ -10,7 +10,7 @@ main_log_file='log/main.log'
 # Настройки django
 allowed_host='127.0.0.1'
 secret_key=')01xqqf#tzq-1yh$uzs8ckt*r7h6061ngn2$hyxxhgnwi2cti'
-admin_name='Nikita-Boyarskikh'
+admin_name='Nikita_Boyarskikh'
 admin_pass='Ybrbnf02'
 admin_email='N02@yandex.ru'
 
@@ -35,7 +35,7 @@ memcached_socket='memcached.sock'
 memcached_log='log/memcached.log'
 
 # Настройки админа
-name='Nikita-Boyarskikh'
+name='Nikita_Boyarskikh'
 email='N02@yandex.ru'
 
 #----------Настройки локализации (используем en_US.utf8 по умолчанию)----------
@@ -131,7 +131,6 @@ fi
 echo -e "[1;39m\tCopying files and creating paths...[0;39m"
 if mkdir -p $root_path &&
 cp $home_dir/conf/proxy_params /etc/nginx/ &&
-cp $home_dir/conf/rc.local /etc/rc.local &&
 mkdir $root_path/$project_name &&
 cp $home_dir/conf/gunicorn.conf.py $root_path/$project_name/ &&
 cp $home_dir/$project_name/manage.py $root_path/$project_name/ &&
@@ -145,6 +144,7 @@ cp -r $home_dir/$project_name/app/uploads $root_path/$project_name/app/ &&
 cp -r $home_dir/$project_name/app/templates $root_path/$project_name/app/ &&
 cp -r $home_dir/$project_name/app/management $root_path/$project_name/app/ &&
 cp -r $home_dir/$project_name/app/locale $root_path/$project_name/app/locale &&
+cp -r $home_dir/$project_name/app/tests $root_path/$project_name/app/tests &&
 mkdir $root_path/conf && cd $root_path &&
 cp $home_dir/conf/config.ini $root_path/conf/config.ini &&
 cp $home_dir/conf/my.cnf $root_path/conf/ &&
@@ -190,6 +190,7 @@ if mysql -h $db_host -P $db_port -u $superuser -p$superpass -e "
     CREATE USER '$db_user'@'$db_host' IDENTIFIED BY '$db_pass';
     CREATE DATABASE $db_name DEFAULT CHARACTER SET 'utf8';
     GRANT ALL PRIVILEGES ON $db_name.* TO '$db_user'@'$db_host';
+    GRANT ALL PRIVILEGES ON test_$db_name.* TO '$db_user'@'$db_host';
     FLUSH PRIVILEGES;"
 then echo -e "[1;32m[OK][0;39m"
 else
@@ -225,7 +226,6 @@ else echo -e "[1;31m[ERROR] can't create or start cron tasks :([1;39m"; echo "
 fi
 
 #----------Запускаем приложение----------
-
 if python3 manage.py collectstatic --no-input -cl &&
 cp -r $home_dir/$project_name/app/static $root_path/$project_name/app/ &&
 python3 manage.py compilemessages
