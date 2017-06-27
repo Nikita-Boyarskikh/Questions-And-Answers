@@ -26,7 +26,7 @@ textarea {
 }
 
 .block {
-	padding: 3%;
+	padding: 2%;
 }
 .block h2 {
 	padding: 0 !important;
@@ -41,7 +41,7 @@ textarea {
 }
 
 .member {
-	font-size: 2em;
+	font-size: 1em;
 	list-style: none;
 }
 .nav .member {
@@ -121,6 +121,15 @@ textarea {
 	height: 0;
 }
 
+.form-input-group-textarea-fix {
+	display: block;
+	width: 100%;
+}
+
+.input-group textarea.form-control {
+	border-radius: 4px !important;
+}
+
 .error {
 	color: #a94442 !important;
 	border-color: #a94442 !important;
@@ -151,6 +160,11 @@ textarea {
 	top: 130px;
 	right: 20px;
 	width: 33.33333333%;
+	text-align: center;
+}
+
+.bestusers-collapse {
+	text-align: left;
 }
 
 #back-top {
@@ -196,4 +210,39 @@ textarea {
 }
 #back-top a:hover span {
 	background-color: #777;
+}
+
+.user {
+	font-size: 16px;
+}
+
+.user p {
+	padding: 6px 10px;
+}
+
+label.is_best {
+	width: 32px;
+	height: 40px;
+	display: block;
+	position: relative;
+}
+label.is_best input[type="checkbox"] {
+	display: none;
+}
+label.is_best input[type="checkbox"] + span {
+	position: absolute;
+	left: 0; top: 0;
+	width: 100px;
+	height: 40px;
+	cursor: pointer;
+	color: #ccc;
+}
+label.is_best input[type="checkbox"]:checked + span {
+	color: #3c763d;
+}
+label.is_best input[type="checkbox"] + span {
+	font-size: 14px;
+}
+label.is_best input[type="checkbox"] + span.glyphicon {
+	font-size: 40px;
 }
