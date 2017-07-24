@@ -1,20 +1,39 @@
 {% load i18n %}
-<div class="panel panel-info question-block">
+{% load staticfiles %}
+{% load humanize %}
+<div class="panel panel-info question-block" id="{{ note.id }}">
 	{% block title %}
 	{% endblock title %}
 	<div class="panel-body">
 		<div class="row question-content">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
-				<a href="{% url 'user' note.author.username %}">
-					<img src="{{ note.author.avatar.url }}" class="img-circle center-block" width="100%"
-							alt="{{ note.authr.username }}">
-					<div class="clearfix"></div><br>
-					<h3 class="text-center">{{ note.author.usr.get_full_name }}</h3>
-				</a>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<a href="{% url 'user' note.author.username %}">
+							{% if note.author.avatar %}
+								<img src="{{ note.author.avatar.url }}" class="img-circle center-block" width="100%"
+												alt="{{ note.author.username }}">
+							{% else %}
+								<img src="{% static 'img/anonymous.jpg' %}" class="img-circle" width="100%"
+												alt="{{ note.author.get_full_name }}">
+							{% endif %}
+							<div class="clearfix"></div><br>
+							<h3 class="text-center">{{ note.author.get_full_name }}</h3>
+						</a>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						{% block is_best %}
+						{% endblock is_best %}
+					</div>
+				</div>
 			</div>
 			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10">
 				<blockquote>
-					<p class="size">{{ note.text }}</p>
+					{% if hide_text %}
+						<p class="size">{{ note.text }}</p>
+					{% else %}
+						<p style="word-wrap: break-word">{{ note.text }}</p>
+					{% endif %}
 				</blockquote>
 			</div>
 		</div>
@@ -32,7 +51,7 @@
 							{% if note.raiting > 0 %} #3c763d
 							{% elif note.raiting < 0 %} #a94442
 						{% endif %}">
-							{{ note.raiting }}
+							{{ note.raiting|intcomma }}
 						</p>
 						<span class="input-group-addon error">
 							<span class="glyphicon glyphicon-thumbs-down error" id="dislike"></span>
@@ -41,6 +60,7 @@
 				</div>
 			</div>
 			{% block meta %}
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{ note.create_date|naturaltime }}</div>
 			{% endblock meta %}
 		</div>
 	</div>
