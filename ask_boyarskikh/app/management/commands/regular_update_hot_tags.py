@@ -12,11 +12,15 @@ class Command(BaseCommand):
 	help = _('Cron script that update hot tags')
 	
 	def handle(self, *args, **options):
-            all_questions = Question.objects.all().count()
-            # Размер - отношение количества вопросов с этим тегом к количество вопросов всего
+            all_tags = Question.objects.all().annotate(tag_count=Count('tags'))
+            all_tags_count = 0
+            for tag in all_tags:
+                all_tags_count += tag.tag_count
+
+            # Размер - отношение количества вопросов с этим тегом, умноженному на количество уникальных тегов, к количество выставленных тегов всего
             hot_tags = [{
                     'id': tag.id,
-                    'size': (tag.score/all_questions) * 8,
+                    'size': 2 * tag.score / (all_tags_count if all_tags_count != 0 else 1) * Tag.objects.all().count(),
                     'title': tag.title,
                     'color': {
                         'r': randint(0, 255),
