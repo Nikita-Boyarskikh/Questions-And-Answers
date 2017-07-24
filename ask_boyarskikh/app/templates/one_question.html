@@ -1,4 +1,5 @@
 {% extends 'note.html' %}
+{% load humanize %}
 {% load i18n %}
 {% block title %}
 	<div class="panel-heading text-center">
@@ -14,12 +15,13 @@
 			<a class="label label-primary" href="{% url 'question' note.id %}">
 				{% trans 'Answers' %}
 			</a>&nbsp;
-			<span class="badge">{{ note.answers_count|default:0 }}</span>
+			<span class="badge">{{ note.answer_set.count|default:0|intcomma }}</span>
 		</p>
 		<p class="text-right">
 			{% for t in note.tags.all %}
-				&nbsp;<a class="label label-default" href="{% url 'tag' t.id %}">{{ t.title }}</a>
+				&nbsp;<a class="label label-default" href="{% url 'tag' t.title %}">{{ t.title }}</a>
 			{% endfor %}
 		</p>
 	</div>
+	{{ block.super }}
 {% endblock meta %}
