@@ -1,1 +1,89 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
 {% load i18n %}
+{% block content %}
+<h1>{% trans 'Settings' %}</h1>
+{{form.errors}}
+<form data-toggle="validator" role="form" enctype="multipart/form-data" method="POST" action="{% url 'settings' %}">
+	{% csrf_token %}
+	<div class="form-group has-feedback">
+		<label for="inputLogin" class="control-label">{% trans 'Login' %}</label>
+		<div class="input-group">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+			<input type="text" pattern="^[_А-Яа-яA-Za-z0-9]{1,}$" maxlength="30" class="form-control" id="inputLogin" data-error="{% trans 'Please enter your login' %}"
+				name="username" value="{{ form.username.value|default_if_none:'' }}" placeholder="{% trans 'Enter your login here' %}" disabled>
+		</div>
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+		<span class="help-block with-errors">{% trans 'Enter your login' %}</span>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputEmail" class="control-label">{% trans 'Your e-mail' %}</label>
+		<div class="input-group">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+			<input name="email" type="email" maxlength="30" class="form-control" id="inputEmail" placeholder="{% trans 'Email' %}" data-error="{% trans 'Wrong e-mail' %}"
+							value="{{ form.email.value|default_if_none:'' }}">
+		</div> 
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputFirstname" class="control-label">{% trans 'First name' %}</label>
+		<div class="input-group">
+			<span class="input-group-addon">@</span>
+			<input name="first_name" type="text" pattern="^[_А-Яа-яA-Za-z0-9]{1,}$" maxlength="30" class="form-control" id="inputFirstname" data-error="{% trans 'Enter correct first name' %}"
+				placeholder="{% trans 'Enter your first name here' %}" value="{{ form.first_name.value|default_if_none:'' }}">
+		</div> 
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputLastname" class="control-label">{% trans 'Last name' %}</label>
+		<div class="input-group">
+			<span class="input-group-addon">@</span>
+			<input name="last_name" type="text" pattern="^[_А-Яа-яA-Za-z0-9]{1,}$" maxlength="30" class="form-control" id="inputLastname" data-error="{% trans 'Enter correct last name' %}"
+				placeholder="{% trans 'Enter your first name here' %}" value="{{ form.last_name.value|default_if_none:'' }}">
+		</div> 
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputPassword" class="control-label">{% trans 'Change password' %}</label>
+		<div class="form-inline row">
+			<div class="form-group col-sm-6">
+				<input type="password" name="password" data-toggle="validator" data-minlength="6" maxlength="30" class="form-control" id="inputPassword" placeholder="******">
+				<span class="help-block">{% trans 'Mininum 6 charachters' %}</span>
+			</div>
+			<div class="form-group col-sm-6">
+				<input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" maxlength="30" data-error="{% trans 'Please enter correct your password' %}"
+					data-match-error="{% trans 'Error! Passwords is not match!' %}" placeholder="{% trans 'Repeat your password' %}">
+				<div class="help-block with-errors"></div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group has-feedback">
+		<label for="inputImage" class="control-label">{% trans 'Your avatar' %}</label>
+		<div class="input-group">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-picture"></span></span>
+			<input type="file" id="inputImage" class="form-control" name="avatar" multiple accept="image/*,image/jpeg" data-error="{% trans 'Please load your avatar' %}"
+										value="{{ form.avatar.value|default_if_none:'' }}">
+		</div>
+		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+		<span class="help-block with-errors">{% trans 'Load your avatar' %}</span>
+		<img alt="avatar" id="avatar-image" class="img-circle" style="width: 100%; display: none">
+	</div>
+	<div class="form-group">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" id="terms" data-error="{% trans 'prove that your not a robot' %}" required>
+				{% trans 'before you continue' %}
+			</label>
+			<div class="help-block with-errors"></div>
+		</div>
+	</div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+	</div>
+</form>
+{% endblock content %}
+
+{% block scripts %}
+	{{ block.super }}
+	<script src="{% static 'js/avatar.js' %}"></script>
+{% endblock scripts %}

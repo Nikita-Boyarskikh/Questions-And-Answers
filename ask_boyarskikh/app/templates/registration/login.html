@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-{{ form.non_field_errors }}
+{{ form.errors }}
 <form data-toggle="validator" role="form" method="POST" action="{% url 'login' %}">
 	{% csrf_token %}
 	<div class="form-group has-feedback">
 		<label for="{{ form.username.id_for_label }}" class="control-label">{{ form.username.label }}</label>
 		<div class="input-group">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-			<input type="text" name="username" pattern="^[_A-z0-9]{1,}$" maxlength="255" class="form-control"
-				value="{{ form.username.value }}" data-error="{% trans 'Please enter correct nickname' %}"
+			<input type="text" name="username" pattern="^[_A-z0-9]{1,}$" maxlength="30" class="form-control"
+				value="{{ form.username.value|default_if_none:"" }}" data-error="{% trans 'Please enter correct nickname' %}"
 				id="{{ form.username.id_for_label }}" placeholder="{% trans 'Enter your nick here' %}" required>
 		</div>
 		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -19,7 +19,7 @@
 		<label for="{{ form.password.id_for_label }}" class="control-label">{{ form.password.label }}</label>
 		<div class="input-group">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-			<input type="password" name="password" data-toggle="validator" data-minlength="6" class="form-control" id="{{ form.password.label }}"
+			<input type="password" name="password" data-toggle="validator" maxlength="30" data-minlength="6" class="form-control" id="{{ form.password.label }}"
 				data-error="{% trans 'Please enter your password' %}" placeholder="******" required>
 		</div> 
 		<span class="glyphicon form-control-feedback" aria-hidden="true"></span>

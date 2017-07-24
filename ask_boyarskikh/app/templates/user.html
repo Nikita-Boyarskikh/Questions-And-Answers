@@ -1,1 +1,41 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
 {% load i18n %}
+{% block content %}
+{% if user.username == uid|default_if_none:user.username %}
+	<div class="user">
+		<h2>
+			{{ user.get_full_name }}
+			<small><a href="{% url 'settings' %}">{% trans 'Settings' %}</a></small>
+		</h2>
+		<hr>
+		<div class="col-xs-12 col-md-8">
+			<p>
+				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+				<strong>{% trans 'Login' %}:</strong> {{ user.username }}
+			</p>
+			<p>
+				<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+				<strong>{% trans 'First name' %}:</strong> {{ user.first_name }}
+			</p>
+			<p>
+				<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+				<strong>{% trans 'Last name' %}:</strong> {{ user.last_name }}
+			</p>
+			<p>
+				<span class="glyphicon" aria-hidden="true">@</span>
+				<strong>{% trans 'Email' %}:</strong> {{ user.email }}
+			</p>
+		</div>
+		<div class="col-xs-12 col-md-4">
+			{% if user.avatar %}
+				<img id="avatar-image" class="img-circle" style="width: 100%" src="{{ user.avatar.url }}" alt={{ user.get_full_name }}>
+			{% else %}
+				<img src="{% static 'img/anonymous.jpg' %}" style="width: 100%" class="img-circle" alt="{{ user.get_full_name }}">
+			{% endif %}
+		</div>
+	<div>
+{% else %}
+	<p>{% trans 'Sorry, your are can not see this profile' %}</p>
+{% endif %}
+{% endblock content %}
