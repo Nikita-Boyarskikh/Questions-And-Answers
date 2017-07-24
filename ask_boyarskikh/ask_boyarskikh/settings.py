@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     # custom
     'channels',
@@ -91,6 +92,7 @@ WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 
 DATABASES = {
     'default': {
+        'NAME': config.config_get('DB','name'),
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'read_default_file': config.config_get('DB', 'mycnf_path'),
@@ -103,8 +105,11 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': 'unix:' + os.path.join(BASE_DIR, 'memcached.sock'),
+        'TIMEOUT': 30 * 60,
     }
 }
+
+CACHE_MIDDLEWARE_SECONDS = 1
 
 LOGGING = {
     'version': 1,
@@ -146,7 +151,7 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             'hosts': [('localhost', 6379)],
         },
-        'ROUTING': 'ask_sdemidenko.routing.channel_routing',
+        'ROUTING': 'ask_boyarskikh.routing.channel_routing',
     }
 }
 
