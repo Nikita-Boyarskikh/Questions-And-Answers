@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.http import JsonResponse, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.cache import cache
@@ -6,45 +7,46 @@ from app.models import Profile
 
 OBJS_ON_PAGE = 20
 
-class AjaxableResponseMixin(object):
-    """
-    Mixin to add AJAX support to a form.
-    Must be used with an object-based FormView
-    """
-    def form_invalid(self, form):
-        response = super(AjaxableResponseMixin, self).form_invalid(form)
-        if self.request.is_ajax():
-            return JsonResponse(form.errors, status=400)
+class HttpResponseAjax(HttpResponse):
+    def __init__(self, status='ok', **kwargs):
+        kwargs['status'] = status
+        super(HttpResponseAjax, self).__init__(
+            content = json.dumps(kwargs),
+            content_type = 'application/json'
+        )
+
+class HttpResponseAjaxError(HttpResponseAjax):
+    def __init__(self, code, message):
+        super(HttpResponseAjaxError, self).__init__(
+            status = 'error',
+            code = code,
+            message = message
+        )
+
+def login_required_ajax(view):
+    def view2(request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return view(request, *args, **kwargs)
+        elif request.is_ajax():
+            return HttpResponseAjaxError(
+                code = 'no_auth',
+                message = _('Login is required'),
+            )
         else:
-            return response
+            redirect('/login/?next=' + request.get_full_path())
+    return view2
 
-    def form_valid(self, form):
-        response = super(AjaxableResponseMixin, self).form_valid(form)
-        if self.request.is_ajax():
-            data = {
-                'pk': self.object.pk,
-            }
-            return JsonResponse(data)
-        else:
-            return response
-
-def get_cur_user(request):
-    user_id = request.COOKIES.get('user_id')
-    try:
-        user = Profile.objects.get(id=user_id)
-    except Profile.DoesNotExist:
-        user = None
-    return user
-
-def base_context(request):
-    user = get_cur_user(request)
+def base_context():
     tags = cache.get('hot_tags')
-    best_users = cache.get('best_users')
+    best_user_ids = cache.get('bestusers')
+    if not best_user_ids:
+        best_users = []
+    else:
+        best_users = [ Profile.objects.get(id=u) for u in best_user_ids ]
     return {
-               'user': user,
                'bestusers': best_users,
                'tags': tags,
-               'error': None,
+               'hide_text': True,
            }
 
 def paginated_context(request, objects):
@@ -66,7 +68,7 @@ def paginated_context(request, objects):
     pref_page_index = first_page_in_range - len(page_range)
     next_page_index = len(page_range) + len(page_range)//2
 
-    context = base_context(request)
+    context = base_context()
     context.update({
                        'objects': objects,
                        'page_range': page_range,
