@@ -13,20 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url
+from django.views.i18n import javascript_catalog
+
 from app import views
+
+js_info_dict = {
+    'packages': ('app',),
+}
 
 urlpatterns = [
     url(r'^hello/?$', views.hello, name='HelloWorld'),
     url(r'^$', views.index, name='index'),
     url(r'^$', views.index, name='search'), #TODO
-    url(r'^user/?(\w*)/?$', views.user, name='user'),
-    url(r'^tag/(\w+)/?$', views.tag, name='tag'),
+    url(r'^user/?$', views.user, name='user'),
+    url(r'^user/(?P<uid>\w+)/?$', views.user, name='user'),
+    url(r'^tag/(?P<tid>\w+)/?$', views.tag, name='tag'),
     url(r'^signup/?$', views.registration, name='registration'),
-    url(r'^profile/edit?$', views.settings, name='settings'),
-    url(r'^question/(\d+)/?$', views.question, name='question'),
+    url(r'^profile/edit/?$', views.settings, name='settings'),
+    url(r'^question/(?P<qid>\d+)/?$', views.question, name='question'),
     url(r'^hot/?$', views.hot, name='hot'),
     url(r'^ask/?$', views.ask, name='ask'),
-    url(r'^answer/?(\d+)$', views.answer, name='answer'),
-    url(r'^', include('django.contrib.auth.urls')),
+    url(r'^login/?$', views.login, name='login'),
+    url(r'^logout/?$', views.logout, name='logout'),
+    url(r'^intapi/?$', views.intapi, name='intapi'),
+    url(r'^jsi18n/?$', javascript_catalog, js_info_dict, name='jsi18n'),
+    url(r'^events/?$', views.events, name='events'),
 ]
