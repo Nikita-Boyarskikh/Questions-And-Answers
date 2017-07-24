@@ -1,11 +1,11 @@
+#!/usr/bin/python3
 from django.test import TestCase
 
-class SomeTestCase(TestCase):
+class SimpleTestCase(TestCase):
     # initialisation
     def setUp(self):
         pass
-
-    # 1st test function
-    def test_some_test(self):
-        self.assertEqual(1, 1)
+    
+    def test_simple(self):
+        """Simple test"""
         self.assertTrue(True)
