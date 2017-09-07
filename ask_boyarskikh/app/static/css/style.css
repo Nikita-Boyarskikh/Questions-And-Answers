@@ -246,3 +246,10 @@ label.is_best input[type="checkbox"] + span {
 label.is_best input[type="checkbox"] + span.glyphicon {
 	font-size: 40px;
 }
+
+.dislike_js {
+	cursor: pointer;
+}
+.like_js {
+	cursor: pointer;
+}

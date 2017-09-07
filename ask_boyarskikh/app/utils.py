@@ -1,7 +1,10 @@
+import json
+
 from django.http import HttpResponse
 from django.http import JsonResponse, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.cache import cache
+from django.utils.translation import ugettext as _
 
 from app.models import Profile
 

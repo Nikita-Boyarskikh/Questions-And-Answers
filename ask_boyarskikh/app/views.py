@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import hashers, login as authorize, decorators, views as auth_views
 
@@ -181,13 +182,32 @@ def hot(request):
     context['alternative_url'] = 'index'
     return render(request, 'index.html', context)
 
-#@require_POST
-#@login_required_ajax
+@require_POST
+@login_required_ajax
+@ensure_csrf_cookie
 def intapi(request):
     if request.is_ajax():
-        data = Answers.get(question_id=POST['qid'], id=POST['aid'])
+        aid = request.POST.get('id')
+        answer = get_object_or_404(Answer, question_id=get_object_or_404(Question, answer_id=aid).id, id=aid)
+        if request.POST.get('method') == 'like':
+            answer.raiting += 1
+            data = answer.raiting
+        elif request.POST.get('method') == 'dislike':
+            answer.raiting -= 1
+            data = answer.raiting
+        elif request.POST.get('method') == 'check_best_answer':
+            answers = Answer.objects.filter(question_id=request.POST.get('id'))
+            for i in answers:
+                i.is_best = None
+                i.save()
+            answer.is_best = True
+            data = 'ok'
+        else:
+            data = _('Wrong method')
+            return HttpResponse(data)
+        answer.save()
     else:
-        data = "Wrong"
+        data = _('Wrong request type')
     return HttpResponse(data)
 
 @require_GET

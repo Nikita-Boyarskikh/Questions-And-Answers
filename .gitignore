@@ -89,4 +89,5 @@ ENV/
 .ropeproject
 
 # for this project
+/ask_boyarskikh/app/uploads
 dev/

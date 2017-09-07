@@ -21,10 +21,12 @@
 							<h3 class="text-center">{{ note.author.get_full_name }}</h3>
 						</a>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						{% block is_best %}
-						{% endblock is_best %}
-					</div>
+					{% if note.author == user %}
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							{% block is_best %}
+							{% endblock is_best %}
+						</div>
+					{% endif %}
 				</div>
 			</div>
 			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-10">
@@ -38,14 +40,14 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-3">
 				<div class="form-group-lg
 				  		{% if note.raiting > 0 %} has-success
 				  		{% elif note.raiting < 0 %} has-error
 				  		{% endif %} text-center">
 					<div class="input-group">
-						<span class="input-group-addon success">
-							<span class="glyphicon glyphicon-thumbs-up success" id="like"></span>
+						<span class="input-group-addon success like_js">
+							<span class="glyphicon glyphicon-thumbs-up" id="like{{ note.id }}"></span>
 						</span>
 						<p class="form-control" style="color: 
 							{% if note.raiting > 0 %} #3c763d
@@ -53,8 +55,8 @@
 						{% endif %}">
 							{{ note.raiting|intcomma }}
 						</p>
-						<span class="input-group-addon error">
-							<span class="glyphicon glyphicon-thumbs-down error" id="dislike"></span>
+						<span class="input-group-addon error dislike_js">
+							<span class="glyphicon glyphicon-thumbs-down" id="dislike{{ note.id }}"></span>
 						</span>
 					</div>
 				</div>
