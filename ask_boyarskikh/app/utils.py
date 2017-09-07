@@ -1,4 +1,4 @@
-import json
+from json import dumps
 
 from django.http import HttpResponse
 from django.http import JsonResponse, Http404
@@ -14,7 +14,7 @@ class HttpResponseAjax(HttpResponse):
     def __init__(self, status='ok', **kwargs):
         kwargs['status'] = status
         super(HttpResponseAjax, self).__init__(
-            content = json.dumps(kwargs),
+            content = dumps(kwargs),
             content_type = 'application/json'
         )
 

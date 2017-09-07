@@ -6,10 +6,7 @@ db_name='ask_boyarskikh_db'
 db_user='ask_boyarskikh'
 host='127.0.0.1'
 
-echo "
-from django.core.cache import cache
-cache.clear()
-" | sudo -H /WEB/ask_boyarskikh/manage.py shell
+sudo -H /WEB/ask_boyarskikh/manage.py clear_cache
 sudo rm -rf /WEB/
 sudo service nginx stop
 sudo rm /etc/nginx/proxy_params
