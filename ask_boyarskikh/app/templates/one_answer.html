@@ -6,7 +6,7 @@
 {% endblock meta %}
 {% block is_best %}
 	<label class="is_best">
-		<input type="checkbox" class="is_best_js" name="is_best">
+		<input type="checkbox" class="is_best_js" {% if note.is_best %}checked{% else %}lol{% endif %} name="is_best">
 		<span class="glyphicon glyphicon-ok-circle">{% trans 'Best' %}</span>
 	</label>
 {% endblock is_best %}

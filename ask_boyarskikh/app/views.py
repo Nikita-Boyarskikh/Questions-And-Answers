@@ -182,32 +182,44 @@ def hot(request):
     context['alternative_url'] = 'index'
     return render(request, 'index.html', context)
 
+
 @require_POST
 @login_required_ajax
 @ensure_csrf_cookie
 def intapi(request):
     if request.is_ajax():
-        aid = request.POST.get('id')
-        answer = get_object_or_404(Answer, question_id=get_object_or_404(Question, answer_id=aid).id, id=aid)
+        aid = request.POST.get('aid')
+        qid = request.POST.get('qid')
+
+        if aid:
+            obj = get_object_or_404(Answer, id=aid)
+        elif qid:
+            obj = get_object_or_404(Question, id=qid)
+        else:
+            return HttpResponseBadRequest(_('Wrong data'))
+
         if request.POST.get('method') == 'like':
-            answer.raiting += 1
-            data = answer.raiting
+            obj.raiting += 1
+            data = obj.raiting
         elif request.POST.get('method') == 'dislike':
-            answer.raiting -= 1
-            data = answer.raiting
+            obj.raiting -= 1
+            data = obj.raiting
         elif request.POST.get('method') == 'check_best_answer':
-            answers = Answer.objects.filter(question_id=request.POST.get('id'))
-            for i in answers:
-                i.is_best = None
-                i.save()
-            answer.is_best = True
+            answers = Answer.objects.filter(question_id=qid)
+            obj = get_object_or_404(Answer, id=aid)
+            if not obj.is_best:
+                for i in answers.filter(is_best=True):
+                    i.is_best = None
+                    i.save()
+                obj.is_best = True
             data = 'ok'
         else:
             data = _('Wrong method')
-            return HttpResponse(data)
-        answer.save()
+            return HttpResponseBadRequest(data)
+        obj.save()
     else:
         data = _('Wrong request type')
+        return HttpResponseBadRequest(data)
     return HttpResponse(data)
 
 @require_GET

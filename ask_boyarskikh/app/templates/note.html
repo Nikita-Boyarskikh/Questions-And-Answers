@@ -1,9 +1,11 @@
 {% load i18n %}
 {% load staticfiles %}
+{% load ask_filters %}
 {% load humanize %}
-<div class="panel panel-info question-block" id="{{ note.id }}">
+<div class="panel panel-info question-block" id="{{ note.id }}" data-class="{{ note | to_class_name }}">
 	{% block title %}
 	{% endblock title %}
+
 	<div class="panel-body">
 		<div class="row question-content">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
@@ -49,7 +51,7 @@
 						<span class="input-group-addon success like_js">
 							<span class="glyphicon glyphicon-thumbs-up" id="like{{ note.id }}"></span>
 						</span>
-						<p class="form-control" style="color: 
+						<p class="form-control like_counter" style="color:
 							{% if note.raiting > 0 %} #3c763d
 							{% elif note.raiting < 0 %} #a94442
 						{% endif %}">
