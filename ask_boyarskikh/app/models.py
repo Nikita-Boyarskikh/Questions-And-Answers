@@ -52,7 +52,7 @@ class ProfileManager(UserManager):
 
 class Profile(AbstractUser):
     def _get_image_name(self, image_name):
-        return str(self.id) + image_name.split('.')[-1]
+        return '.'.join((str(self.get_full_name()), image_name.split('.')[-1]))
 
     def get_full_name(self):
         try:
