@@ -28,7 +28,7 @@ class HttpResponseAjaxError(HttpResponseAjax):
 
 def login_required_ajax(view):
     def view2(request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return view(request, *args, **kwargs)
         elif request.is_ajax():
             return HttpResponseAjaxError(

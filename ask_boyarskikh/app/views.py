@@ -1,6 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -12,7 +12,7 @@ from app.models import Question, Answer, Profile, Tag
 from app.forms import QuestionForm, RegistrationForm, SettingsForm, AnswerForm
 
 def events(request):
-    return HttpResponse(101);
+    return HttpResponse(status=101)
 
 @decorators.login_required
 def logout(request):
@@ -66,7 +66,7 @@ def tag(request, tid):
 
 def registration(request):
     context = base_context()
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         context['title'] = _('Logout')
         return render(request, 'registration/logout.html', context)
     if request.method == 'POST':
@@ -88,7 +88,7 @@ def question(request, qid):
     answers = Answer.objects.questions(qid)
     context = paginated_context(request, answers)
     if request.method == 'POST':
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return redirect('/login/?next=' + request.get_full_path())
         form = AnswerForm(request.POST)
         if form.is_valid():
@@ -233,3 +233,4 @@ def hello(request):
         content += '<br>' + str(i) + ' : ' + str(request.POST[i])
     content += footer
     return HttpResponse(content)
+

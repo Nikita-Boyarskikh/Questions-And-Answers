@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.views.i18n import javascript_catalog
+from django.views.i18n import JavaScriptCatalog
 
 from app import views
 
@@ -37,6 +37,6 @@ urlpatterns = [
     url(r'^login/?$', views.login, name='login'),
     url(r'^logout/?$', views.logout, name='logout'),
     url(r'^intapi/?$', views.intapi, name='intapi'),
-    url(r'^jsi18n/?$', javascript_catalog, js_info_dict, name='jsi18n'),
+    url(r'^jsi18n/?$', JavaScriptCatalog.as_view(**js_info_dict), name='jsi18n'),
     url(r'^events/?$', views.events, name='events'),
 ]

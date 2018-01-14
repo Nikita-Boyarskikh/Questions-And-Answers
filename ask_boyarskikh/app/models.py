@@ -1,16 +1,16 @@
 import random
 
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db.models import Count
 from django.utils.translation import string_concat, ugettext_lazy as _
 from django.core.mail import send_mail
 
 class Like(models.Model):
-    user = models.ForeignKey('Profile', verbose_name=_('User'))
-    question = models.ForeignKey('Question', verbose_name=_('Question'))
-    answer = models.ForeignKey('Answer', verbose_name=_('Answer'))
+    user = models.ForeignKey('Profile', verbose_name=_('User'), on_delete='restrict')
+    question = models.ForeignKey('Question', verbose_name=_('Question'), on_delete='restrict')
+    answer = models.ForeignKey('Answer', verbose_name=_('Answer'), on_delete='restrict')
 
     def __str__(self):
         return 'user "%s" likes "%s" answer' % (self.user, self.answer)
@@ -28,13 +28,14 @@ class QuestionManager(models.Manager):
         return self.order_by('-raiting')
 
 class Question(models.Model):
+    group_name = 'question'
     title = models.CharField(max_length=30, verbose_name=_('Title'), db_index = True)
     text = models.TextField(verbose_name=_('Text'))
     raiting = models.SmallIntegerField(default=0, editable=False, verbose_name=_('Raiting'))
     create_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Create time'))
 
     tags = models.ManyToManyField('Tag', blank=True, verbose_name=_('Tag'))
-    author = models.ForeignKey('Profile', verbose_name=_('Author'))
+    author = models.ForeignKey('Profile', verbose_name=_('Author'), on_delete='restrict')
 
     objects = QuestionManager()
 
@@ -104,8 +105,8 @@ class Answer(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Create time'))
     is_best = models.NullBooleanField(verbose_name=_('Is best'))
 
-    question = models.ForeignKey('Question', verbose_name=_('Question'), db_index = True)
-    author = models.ForeignKey('Profile', verbose_name=_('Author'))
+    question = models.ForeignKey('Question', verbose_name=_('Question'), db_index = True, on_delete='restrict')
+    author = models.ForeignKey('Profile', verbose_name=_('Author'), on_delete='restrict')
 
     objects = AnswerManager()
 
