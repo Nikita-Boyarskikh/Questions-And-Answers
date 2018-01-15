@@ -1,0 +1,50 @@
+---
+- pk: 1
+  model: 'app.question'
+  fields:
+    title: 'question0'
+    text: 'A lot of text...'
+    author: 2
+    raiting: -7
+    tags:
+    - 2
+    create_date: '2018-01-15T04:04:52.168Z'
+- pk: 2
+  model: 'app.question'
+  fields:
+    title: 'question1'
+    text: 'A lot of text...'
+    author: 2
+    raiting: -6
+    tags: []
+    create_date: '2018-01-15T04:04:52.177Z'
+- pk: 3
+  model: 'app.question'
+  fields:
+    title: 'question2'
+    text: 'A lot of text...'
+    author: 1
+    raiting: 10
+    tags: []
+    create_date: '2018-01-15T04:04:52.179Z'
+- pk: 4
+  model: 'app.question'
+  fields:
+    title: 'question3'
+    text: 'A lot of text...'
+    author: 1
+    raiting: -9
+    tags:
+    - 1
+    - 2
+    create_date: '2018-01-15T04:04:52.180Z'
+- pk: 5
+  model: 'app.question'
+  fields:
+    title: 'question4'
+    text: 'A lot of text...'
+    author: 2
+    raiting: 2
+    tags:
+    - 1
+    create_date: '2018-01-15T04:04:52.188Z'

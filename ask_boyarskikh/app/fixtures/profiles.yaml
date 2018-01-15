@@ -1,0 +1,33 @@
+---
+- pk: 1
+  model: 'app.profile'
+  fields:
+    username: 'Пользователь0'
+    email: 'user0@ask.ru'
+    first_name: 'lol'
+    last_name: 'kek'
+    password: 'pbkdf2_sha256$100000$UCSduIt4Zir1$2r/ZTDrb/fp4sVyx3Z6F2PNlwS/hUfyGy4JvKBSirf8=' # pass0
+    avatar: 'img/user0.png'
+    groups: []
+    user_permissions: []
+    date_joined: '2018-01-15T04:04:51.932Z'
+    last_login: 
+    is_active: true
+    is_staff: false
+    is_superuser: false
+- pk: 2
+  model: 'app.profile'
+  fields:
+    username: 'Пользователь1'
+    email: 'user1@ask.ru'
+    first_name: 'lol'
+    last_name: 'kek'
+    password: 'pbkdf2_sha256$100000$l40knydzqaw6$JKLcLtnMeFeUY4cwVoiETFJQzOAGAypY5qNMp+UIuX4=' # pass1
+    avatar: 'img/user1.png'
+    groups: []
+    user_permissions: []
+    date_joined: '2018-01-15T04:04:52.056Z'
+    last_login: 
+    is_active: true
+    is_staff: false
+    is_superuser: false

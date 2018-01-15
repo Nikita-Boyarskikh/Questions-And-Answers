@@ -1,0 +1,91 @@
+---
+- pk: 1
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 1
+    author: 1
+    raiting: 8
+    is_best: 
+    create_date: '2018-01-15T04:04:52.193Z'
+- pk: 2
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 1
+    author: 2
+    raiting: 6
+    is_best: 
+    create_date: '2018-01-15T04:04:52.212Z'
+- pk: 3
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 1
+    author: 1
+    raiting: 0
+    is_best: 
+    create_date: '2018-01-15T04:04:52.232Z'
+- pk: 4
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 4
+    author: 1
+    raiting: 0
+    is_best: 
+    create_date: '2018-01-15T04:04:52.239Z'
+- pk: 5
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 4
+    author: 1
+    raiting: 1
+    is_best: 
+    create_date: '2018-01-15T04:04:52.253Z'
+- pk: 6
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 5
+    author: 1
+    raiting: 8
+    is_best: 
+    create_date: '2018-01-15T04:04:52.263Z'
+- pk: 7
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 1
+    author: 1
+    raiting: 8
+    is_best: 
+    create_date: '2018-01-15T04:04:52.266Z'
+- pk: 8
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 3
+    author: 2
+    raiting: 1
+    is_best: 
+    create_date: '2018-01-15T04:04:52.269Z'
+- pk: 9
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 4
+    author: 2
+    raiting: 4
+    is_best: 
+    create_date: '2018-01-15T04:04:52.272Z'
+- pk: 10
+  model: 'app.answer'
+  fields:
+    text: 'A lot of text...'
+    question: 5
+    author: 2
+    raiting: 10
+    is_best: 
+    create_date: '2018-01-15T04:04:52.274Z'

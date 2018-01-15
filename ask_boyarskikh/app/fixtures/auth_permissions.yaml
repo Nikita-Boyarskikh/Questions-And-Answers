@@ -1,0 +1,181 @@
+---
+- pk: 1
+  model: 'auth.permission'
+  fields:
+    content_type: 1
+    codename: 'add_logentry'
+    name: 'Can add log entry'
+- pk: 2
+  model: 'auth.permission'
+  fields:
+    content_type: 1
+    codename: 'change_logentry'
+    name: 'Can change log entry'
+- pk: 3
+  model: 'auth.permission'
+  fields:
+    content_type: 1
+    codename: 'delete_logentry'
+    name: 'Can delete log entry'
+- pk: 4
+  model: 'auth.permission'
+  fields:
+    content_type: 2
+    codename: 'add_permission'
+    name: 'Can add permission'
+- pk: 5
+  model: 'auth.permission'
+  fields:
+    content_type: 2
+    codename: 'change_permission'
+    name: 'Can change permission'
+- pk: 6
+  model: 'auth.permission'
+  fields:
+    content_type: 2
+    codename: 'delete_permission'
+    name: 'Can delete permission'
+- pk: 7
+  model: 'auth.permission'
+  fields:
+    content_type: 3
+    codename: 'add_group'
+    name: 'Can add group'
+- pk: 8
+  model: 'auth.permission'
+  fields:
+    content_type: 3
+    codename: 'change_group'
+    name: 'Can change group'
+- pk: 9
+  model: 'auth.permission'
+  fields:
+    content_type: 3
+    codename: 'delete_group'
+    name: 'Can delete group'
+- pk: 10
+  model: 'auth.permission'
+  fields:
+    content_type: 4
+    codename: 'add_contenttype'
+    name: 'Can add content type'
+- pk: 11
+  model: 'auth.permission'
+  fields:
+    content_type: 4
+    codename: 'change_contenttype'
+    name: 'Can change content type'
+- pk: 12
+  model: 'auth.permission'
+  fields:
+    content_type: 4
+    codename: 'delete_contenttype'
+    name: 'Can delete content type'
+- pk: 13
+  model: 'auth.permission'
+  fields:
+    content_type: 5
+    codename: 'add_session'
+    name: 'Can add session'
+- pk: 14
+  model: 'auth.permission'
+  fields:
+    content_type: 5
+    codename: 'change_session'
+    name: 'Can change session'
+- pk: 15
+  model: 'auth.permission'
+  fields:
+    content_type: 5
+    codename: 'delete_session'
+    name: 'Can delete session'
+- pk: 16
+  model: 'auth.permission'
+  fields:
+    content_type: 6
+    codename: 'add_like'
+    name: 'Can add Like'
+- pk: 17
+  model: 'auth.permission'
+  fields:
+    content_type: 6
+    codename: 'change_like'
+    name: 'Can change Like'
+- pk: 18
+  model: 'auth.permission'
+  fields:
+    content_type: 6
+    codename: 'delete_like'
+    name: 'Can delete Like'
+- pk: 19
+  model: 'auth.permission'
+  fields:
+    content_type: 7
+    codename: 'add_question'
+    name: 'Can add Question'
+- pk: 20
+  model: 'auth.permission'
+  fields:
+    content_type: 7
+    codename: 'change_question'
+    name: 'Can change Question'
+- pk: 21
+  model: 'auth.permission'
+  fields:
+    content_type: 7
+    codename: 'delete_question'
+    name: 'Can delete Question'
+- pk: 22
+  model: 'auth.permission'
+  fields:
+    content_type: 8
+    codename: 'add_profile'
+    name: 'Can add User'
+- pk: 23
+  model: 'auth.permission'
+  fields:
+    content_type: 8
+    codename: 'change_profile'
+    name: 'Can change User'
+- pk: 24
+  model: 'auth.permission'
+  fields:
+    content_type: 8
+    codename: 'delete_profile'
+    name: 'Can delete User'
+- pk: 25
+  model: 'auth.permission'
+  fields:
+    content_type: 9
+    codename: 'add_tag'
+    name: 'Can add Tag'
+- pk: 26
+  model: 'auth.permission'
+  fields:
+    content_type: 9
+    codename: 'change_tag'
+    name: 'Can change Tag'
+- pk: 27
+  model: 'auth.permission'
+  fields:
+    content_type: 9
+    codename: 'delete_tag'
+    name: 'Can delete Tag'
+- pk: 28
+  model: 'auth.permission'
+  fields:
+    content_type: 10
+    codename: 'add_answer'
+    name: 'Can add Answer'
+- pk: 29
+  model: 'auth.permission'
+  fields:
+    content_type: 10
+    codename: 'change_answer'
+    name: 'Can change Answer'
+- pk: 30
+  model: 'auth.permission'
+  fields:
+    content_type: 10
+    codename: 'delete_answer'
+    name: 'Can delete Answer'
