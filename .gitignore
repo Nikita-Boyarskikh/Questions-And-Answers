@@ -89,6 +89,7 @@ ENV/
 .ropeproject
 
 # for this project
-/ask_boyarskikh/app/uploads
+ask_boyarskikh/**/uploads/*
+!ask_boyarskikh/**/uploads/*/
 dev/
-ask_boyarskikh/app/uploads
+ask_boyarskikh/screenshots/*.png
