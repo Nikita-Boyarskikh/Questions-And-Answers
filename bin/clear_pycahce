@@ -1,0 +1,4 @@
+#!/bin/bash
+find . -type d -name __pycache__ | xargs rm -rf
+find ask_boyarskikh/app/templates -name '*.py' | xargs rm
+find . -name '*.pyc' | xargs rm
