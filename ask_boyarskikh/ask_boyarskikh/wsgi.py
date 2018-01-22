@@ -1,3 +1,5 @@
+# pylint: disable=invalid-name
+
 """
 WSGI config for questandansw project.
 

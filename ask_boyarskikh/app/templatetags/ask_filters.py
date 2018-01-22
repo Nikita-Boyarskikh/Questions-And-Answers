@@ -1,5 +1,5 @@
 from django import template
-register = template.Library()
+register = template.Library()  # pylint: disable=invalid-name
 
 
 @register.filter

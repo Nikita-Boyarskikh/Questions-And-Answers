@@ -1,13 +1,14 @@
+# pylint: disable=invalid-name
 import multiprocessing
 
 import os
 import sys
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(BASE_DIR))
-
 from config import Configuration
 config = Configuration()
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(BASE_DIR))
 
 # Global settings
 ROOT_DIR = config.config_get('boot', 'root_dir')

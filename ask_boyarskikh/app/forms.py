@@ -7,22 +7,26 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from app.models import Question, Profile, Tag, Answer
 
-User = get_user_model()
+User = get_user_model()  # pylint: disable=invalid-name
 
 # TODO: validate HTTP tag : Referer
+
 
 class AdminUserAddForm(UserCreationForm):
     class Meta:
         model = User
         fields = '__all__'
 
+
 class AdminUserChangeForm(UserChangeForm):
     class Meta:
         fields = '__all__'
         model = User
 
+
 class QuestionForm(forms.ModelForm):
     tags = forms.RegexField(max_length=255, regex='^([_A-Za-z0-9]+)(, [_A-Za-z0-9]+){0,2}$', required=False)
+
     def clean_tags(self):
         tags = self.cleaned_data['tags'].split(', ')
         tags = list(filter(lambda x: x != '', tags))
@@ -30,18 +34,17 @@ class QuestionForm(forms.ModelForm):
             raise forms.ValidationError(_('You must not specified more than three tags'), code='more_than_3_tags')
         return tags
 
-    def save(self, *args, **kwargs):
+    def save(self, commit=True):
         tags = []
-        for t in self.cleaned_data['tags']:
+        for tag_title in self.cleaned_data['tags']:
             try:
-                tag = Tag.objects.get(title=t)
+                tag = Tag.objects.get(title=tag_title)
             except ObjectDoesNotExist:
                 tag = Tag()
-                tag.title = t
+                tag.title = tag_title
                 tag.save()
             tags.append(tag)
-        kwargs['commit'] = False
-        question = super(QuestionForm, self).save(*args, **kwargs)
+        question = super(QuestionForm, self).save(commit=False)
         return question, tags
 
     class Meta:
@@ -63,10 +66,11 @@ class QuestionForm(forms.ModelForm):
 #                'max_length': _('is too long'),
 #            },
 #            NON_FIELD_ERRORS: {
-#                'unique_together': _("%(model_name)s's %(field_lables)s are not unique."),
+#                'unique_together': _('%(model_name)s's %(field_lables)s are not unique.'),
 #            },
 #       }
         localized_fields = '__all__'
+
 
 class BaseUserForm(forms.ModelForm):
     def clean_user(self):
@@ -87,13 +91,16 @@ class BaseUserForm(forms.ModelForm):
             'last_name',
         )
 
+
 class RegistrationForm(BaseUserForm):
     pass
+
 
 class SettingsForm(BaseUserForm):
     password = forms.CharField(max_length=80, widget=forms.PasswordInput, required=False)
     avatar = forms.ImageField(max_length=1024, required=False)
     username = forms.CharField(max_length=1024, required=False)
+
 
 class AnswerForm(forms.ModelForm):
     class Meta:

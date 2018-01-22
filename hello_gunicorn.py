@@ -1,13 +1,24 @@
-from cgi import parse_qsl, escape
+"""
+Hello World with python cgi
+"""
+
+from urllib.parse import parse_qsl
 from pprint import pformat
 
+
 def app(env, resp):
+    """
+    CGI method, prints:
+    `Hello World!
+    $REQUEST_METHOD:
+    $HTTP_PARAMS`
+    """
     data = "Hello World!\n"
     data += env['REQUEST_METHOD'] + ':\n'
     if env['REQUEST_METHOD'] == 'POST':
         if env['QUERY_STRING'] != '':
-            for ch in parse_qsl(env['QUERY_STRING']):
-                data += ' = '.join(ch) + '<br>'
+            for chank in parse_qsl(env['QUERY_STRING']):
+                data += ' = '.join(chank) + '<br>'
     elif env['REQUEST_METHOD'] == 'GET':
         data += pformat(env['wsgi.input'].read())
     else:

@@ -1,8 +1,10 @@
-from channels import route
+# pylint: disable=invalid-name
 
-from app.consumers import questions_connect, questions_disconnect
+from channels.routing import route  # pylint: disable=unused-import
+
+from app.consumers import ws_connect, ws_disconnect
 
 channel_routing = {
-    "websocket.connect": questions_connect,
-    "websocket.disconnect": questions_disconnect,
+    'websocket.connect': ws_connect,
+    'websocket.disconnect': ws_disconnect,
 }

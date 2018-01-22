@@ -2,35 +2,35 @@
 Django settings for PROJECT_NAME project.
 """
 
-from django.utils.translation import ugettext_lazy as _
-
 import os
 import socket
+
+from django.utils.translation import ugettext_lazy as _
 from config import Configuration
-config = Configuration()
+CFG = Configuration()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_NAME = config.config_get('boot', 'app')
+PROJECT_NAME = CFG.config_get('boot', 'app')
 
-SECRET_KEY = config.config_get('django', 'secret_key')
+SECRET_KEY = CFG.config_get('django', 'secret_key')
 
-if socket.gethostname() == config.config_get('Admin', 'name'):
+if socket.gethostname() == CFG.config_get('Admin', 'name'):
     # Локальная машина разработчика
-    
+
     DEBUG = True
     ALLOWED_HOSTS = [
-                        '127.0.0.1',
-                        'localhost',
-                    ]
+        '127.0.0.1',
+        'localhost',
+    ]
 
 else:
     # Продакшн-сервер
-    
+
     DEBUG = False
-    ALLOWED_HOSTS = [config.config_get('django', 'allowed_host')]
+    ALLOWED_HOSTS = [CFG.config_get('django', 'allowed_host')]
 
     ADMINS = [
-        (config.config_get('Admin', 'name'), config.config_get('Admin', 'email')),
+        (CFG.config_get('Admin', 'name'), CFG.config_get('Admin', 'email')),
     ]
 
 
@@ -73,8 +73,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-                    os.path.join(BASE_DIR, 'app', 'templates'),
-                ],
+            os.path.join(BASE_DIR, 'app', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -91,10 +91,10 @@ WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': config.config_get('DB','name'),
+        'NAME': CFG.config_get('DB', 'name'),
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': config.config_get('DB', 'mycnf_path'),
+            'read_default_file': CFG.config_get('DB', 'mycnf_path'),
             'init_command': 'SET sql_mode=STRICT_ALL_TABLES',
         },
     }
@@ -115,8 +115,8 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%d/%b/%Y %H:%M:%S"
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': '%d/%b/%Y %H:%M:%S'
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -124,18 +124,18 @@ LOGGING = {
     },
     'handlers': {
         'applogfile': {
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(BASE_DIR, 'log', PROJECT_NAME + '.log'),
-            'maxBytes': 1024*1024*15, # 15MB
+            'maxBytes': 1024*1024*15,  # 15MB
             'backupCount': 10,
         },
     },
     'loggers': {
         'django': {
-            'handlers':['applogfile'],
+            'handlers': ['applogfile'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
         'app': {
             'handlers': ['applogfile'],
@@ -154,8 +154,8 @@ CHANNEL_LAYERS = {
     }
 }
 
-DEFAULT_FROM_EMAIL = config.config_get('Admin', 'email')
-SERVER_EMAIL = config.config_get('boot', 'app') + '@' + socket.gethostname()
+DEFAULT_FROM_EMAIL = CFG.config_get('Admin', 'email')
+SERVER_EMAIL = CFG.config_get('boot', 'app') + '@' + socket.gethostname()
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -176,8 +176,8 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 
 LANGUAGES = [
-  ('en', _('English')),
-  ('ru', _('Russian')),
+    ('en', _('English')),
+    ('ru', _('Russian')),
 ]
 
 FIRST_DAY_OF_WEEK = 1

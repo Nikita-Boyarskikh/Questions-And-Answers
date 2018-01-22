@@ -1,30 +1,34 @@
 from json import dumps
 
 from django.http import HttpResponse
-from django.http import JsonResponse, Http404
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import Http404
+from django.core.paginator import Paginator, EmptyPage
 from django.core.cache import cache
 from django.utils.translation import ugettext as _
+from django.shortcuts import redirect
 
 from app.models import Profile
 
 OBJS_ON_PAGE = 20
 
+
 class HttpResponseAjax(HttpResponse):
     def __init__(self, status='ok', **kwargs):
         kwargs['status'] = status
         super(HttpResponseAjax, self).__init__(
-            content = dumps(kwargs),
-            content_type = 'application/json'
+            content=dumps(kwargs),
+            content_type='application/json'
         )
+
 
 class HttpResponseAjaxError(HttpResponseAjax):
     def __init__(self, code, message):
         super(HttpResponseAjaxError, self).__init__(
-            status = 'error',
-            code = code,
-            message = message
+            status='error',
+            code=code,
+            message=message
         )
+
 
 def login_required_ajax(view):
     def view2(request, *args, **kwargs):
@@ -32,12 +36,13 @@ def login_required_ajax(view):
             return view(request, *args, **kwargs)
         elif request.is_ajax():
             return HttpResponseAjaxError(
-                code = 'no_auth',
-                message = _('Login is required'),
+                code='no_auth',
+                message=_('Login is required'),
             )
         else:
             redirect('/login/?next=' + request.get_full_path())
     return view2
+
 
 def base_context():
     tags = cache.get('hot_tags')
@@ -45,12 +50,13 @@ def base_context():
     if not best_user_ids:
         best_users = []
     else:
-        best_users = [ Profile.objects.get(id=u) for u in best_user_ids ]
+        best_users = [Profile.objects.get(id=u) for u in best_user_ids]
     return {
-               'bestusers': best_users,
-               'tags': tags,
-               'hide_text': True,
-           }
+        'bestusers': best_users,
+        'tags': tags,
+        'hide_text': True,
+    }
+
 
 def paginated_context(request, objects):
     paginator = Paginator(objects, OBJS_ON_PAGE)
@@ -73,10 +79,10 @@ def paginated_context(request, objects):
 
     context = base_context()
     context.update({
-                       'objects': objects,
-                       'page_range': page_range,
-                       'cur_page': cur_page,
-                       'pref_page_index': pref_page_index,
-                       'next_page_index': next_page_index,
-                   })
+        'objects': objects,
+        'page_range': page_range,
+        'cur_page': cur_page,
+        'pref_page_index': pref_page_index,
+        'next_page_index': next_page_index,
+    })
     return context
