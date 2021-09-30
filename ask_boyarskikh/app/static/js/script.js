@@ -1,9 +1,9 @@
-$(document).ready(function(){
+$(document).ready(() => {
 	// websockets
-	var ws_path = 'ws://' + window.location.host + "/events";
-	console.log("Connecting to " + ws_path);
-	var webSocketBridge = new channels.WebSocketBridge();
-	webSocketBridge.connect(ws_path);
+	const wsPath = 'ws://' + window.location.host + "/events";
+	console.log("Connecting to " + wsPath);
+	const webSocketBridge = new channels.WebSocketBridge();
+	webSocketBridge.connect(wsPath);
 	webSocketBridge.listen(function (data) {
 		alert("Wow! New question " + data["title"] + " by " + data["author"])
 	});

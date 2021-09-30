@@ -1,6 +1,5 @@
-* Captcha
-* HTTPS
-* notify.js
-* channels
+* ReCaptcha
+* HTTP2 + SSL
+* SPA
 * Tests
-* Deploy
+* Search

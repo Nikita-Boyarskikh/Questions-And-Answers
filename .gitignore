@@ -88,7 +88,13 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# for this project
+# For PyCharm
+.idea/
+
+# For frontend
+**/node_modules
+
+# For this project
 ask_boyarskikh/**/uploads/*
 !ask_boyarskikh/**/uploads/*/
 dev/

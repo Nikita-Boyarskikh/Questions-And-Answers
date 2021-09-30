@@ -1,0 +1,71 @@
+{
+  "name": "questions-and-answers",
+  "version": "1.0.0",
+  "description": "Questions And Answers service",
+  "author": "Nikita-Boyarskikh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nikita-Boyarskikh/Questions-And-Answers.git"
+  },
+  "scripts": {
+    "test": "eslint .",
+    "fix-lint": "eslint . --fix"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.16.0"
+  },
+  "jest": {
+    "globals": {
+      "useBabelrc": true
+    },
+    "browser": true,
+    "testRegex": "(<rootDir>/tests/.*|(\\.|/)(test|spec))\\.(jsx?)$",
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/public/dist/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/public/dist/"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/public/dist/"
+    ],
+    "verbose": true,
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      "\\.(pug)$": "<rootDir>/mocks/pugProcessor.js",
+      "\\.(jsx?)$": "babel-jest"
+    },
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "public/**/*.{js,jsx,ts,tsx}",
+      "!public/common/**",
+      "!public/dist/**",
+      "!public/pnotify.custom.min.js"
+    ],
+    "mapCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
+  }
+}

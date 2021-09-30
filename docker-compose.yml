@@ -1,0 +1,57 @@
+version: '3'
+services:
+  nginx:
+    image: nginx
+    container_name: ask_nginx
+    command: /bin/bash -c './conf/nginx/deploy.sh'
+    ports:
+      - 8000:80
+    volumes:
+      - ./conf/nginx:/etc/nginx/conf.d
+      - ./log/nginx:/var/log/nginx
+    depends_on:
+      - web
+
+  web:
+    environment:
+      - ASK_ENV=production
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - PROJECT_ROOT=QuestionsAndAnswers
+        - PROJECT_NAME=ask_boyarskikh
+        - PORT=8000
+    container_name: ask_web
+    volumes:
+      - ./ask_boyarskikh/log:/QuestionsAndAnswers/log
+    depends_on:
+      - db
+
+  db:
+    env_file:
+      - conf/environments/mysql.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    image: mysql
+    container_name: ask_db
+    volumes:
+      - ./log/mysql:/var/log/mysql
+    ports:
+      - 3306:3306
+
+  postfix:
+    image: postfix
+    container_name: ask_postfix
+    ports:
+      - 465:465
+
+  memcached:
+    image: memcached
+    ports:
+      - 11211:11211
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379

@@ -2,30 +2,69 @@
 
 Проект WEB-сервиса вопросов и ответов (курс WEB-технологии Технопарка)
 
-## Выкладка
+[![Build Status](http://img.shields.io/travis/Nikita-Boyarskikh/Questions-And-Answers.svg?style=flat-square)](https://travis-ci.org/Nikita-Boyarskikh/Questions-And-Answers)
+[![Dependency Status](http://img.shields.io/gemnasium/Nikita-Boyarskikh/Questions-And-Answers.svg?style=flat-square)](https://gemnasium.com/Nikita-Boyarskikh/Questions-And-Answers)
+[![Coverage Status](http://img.shields.io/coveralls/Nikita-Boyarskikh/Questions-And-Answers.svg?style=flat-square)](https://coveralls.io/r/Nikita-Boyarskikh/Questions-And-Answers)
+[![Code Climate](http://img.shields.io/codeclimate/github/Nikita-Boyarskikh/Questions-And-Answers.svg?style=flat-square)](https://codeclimate.com/github/Nikita-Boyarskikh/Questions-And-Answers)
+[![Github Issues](http://githubbadges.herokuapp.com/Nikita-Boyarskikh/Questions-And-Answers/issues.svg?style=flat-square)](https://github.com/Nikita-Boyarskikh/Questions-And-Answers/issues)
+[![Pending Pull-Requests](http://githubbadges.herokuapp.com/Nikita-Boyarskikh/Questions-And-Answers/pulls.svg?style=flat-square)](https://github.com/Nikita-Boyarskikh/Questions-And-Answers/pulls)
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
-1. Поправить `conf/*` файлы, особенно `config.cfg` под себя
-2. Опциональные настройки
-  2.1. Посмотреть на `ask_boyarskikh/ask_boyarskikh/settings.py`, если нужно
-  2.2. Исправить путь к конфигу в `ask_boyarskikh/config.py`, если нужно
-  2.3 Поправить урлы, если нужно
-3. Запустить `./deploy` (можно запускать с параметрами, либо изменив внутри в заголовке файла значения констант по умолчанию под себя, также можно передать путь к конфигу параметром)
-4. **profit!**
 
-## Свернуть проект так же просто
+## Table of contents
 
-1. Запустить `./remove`
-2. ??? (Удаление с помощью apt или другим способом установленных пакетов (см. `requirments.txt`), DROP баз данных и другая очистка на вашей совести :))
-3. **profit!**
+- [What is it?](#what-is-it)
+- [Quick start](#quick-start)
+- [What's included](#whats-included)
+- [Bugs and feature requests](#bugs-and-feature-requests)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Author](#author)
+- [Copyright and license](#copyright-and-license)
 
-## Переналить проект -- для разработки (также рекомендуется использовать для повторной попытки выкладки в случае конфликтов)
 
-1. Запустить `./redeploy`
-2. **profit!**
+## What is it?
 
------------------------------
+TODO
 
-### TODO:
-* Записать фичи
-* Записать баги
-* Записать планы
+
+## Quick start
+
+TODO
+
+
+## What's included
+
+TODO
+
+
+## Bugs and feature requests
+
+Have a bug or a feature request? Please first read the [issue guidelines](https://github.com/Nikita-Boyarskikh/Questions-And-Answers/blob/master/CONTRIBUTING.md#using-the-issue-tracker) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/Nikita-Boyarskikh/Questions-And-Answers/issues/new).
+
+
+## Documentation
+
+You can find the project documentation [here](https://github.com/Nikita-Boyarskikh/Questions-And-Answers/wiki).
+
+
+## Contributing
+
+Please read through our [contributing guidelines](https://github.com/twbs/bootstrap/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
+
+
+## Author
+
+**Boyarskikh Nikita**
+
+You cat contact me with:
+
+- VK.com: <[https://vk.com/n02vk](https://vk.com/n02vk)>
+- Telegram: <[https://t.me/Nikita_Boyarskikh](https://t.me/Nikita_Boyarskikh)>
+- E-mail: <[N02@yandex.ru](mailto:N02@yandex.ru)>
+
+
+## Copyright and license
+
+Code released under the [MIT License](LICENSE).
+
